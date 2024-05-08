@@ -1,7 +1,8 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { BASE_URL, HEADER_CATALOG_BUTTON_TEXT, CATALOG_MENU_CATEGORIES, FILTER_SUBCATEGORY, SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_SUBCATEGORY, TELESCOPIC_LOADER_AGRISTAR_PAGE_URL, AFTER_LOGO_CLICK_URL, SPARE_PARTS_FOR_TRUCKS_SUBCATEGORY, HEADER_BEARING_CATEGORY, OTHER_PRODUCTS_CATEGORY, OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_CATEGORY, OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_Y_SUBCATEGORY, OILS_URL, FILTERS_URL, HEADER_OILS_TEXT, BREADCRAMBS_OILS_TEXT, SEARCH_RESULTS_URL, BREADCRAMBS_FILTERS_TEXT, FILTERS_OILS_TEXT } from "../../helpers/testData.js";
+import { BASE_URL, HEADER_CATALOG_BUTTON_TEXT, CATALOG_MENU_CATEGORIES, FILTER_SUBCATEGORY, SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_SUBCATEGORY, TELESCOPIC_LOADER_AGRISTAR_PAGE_URL, AFTER_LOGO_CLICK_URL, SPARE_PARTS_FOR_TRUCKS_SUBCATEGORY, HEADER_BEARING_CATEGORY, OTHER_PRODUCTS_CATEGORY, OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_CATEGORY, OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_Y_SUBCATEGORY, OILS_URL, FILTERS_URL, HEADER_OILS_TEXT, BREADCRAMBS_OILS_TEXT, SEARCH_RESULTS_URL, BREADCRAMBS_FILTERS_TEXT, HEADER_FILTERS_OILS_TEXT, SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_URL, BREADCRAMBS_AGRICULTURAL_MACHINERY_TEXT, HEADER_AGRICULTURAL_MACHINERY_TEXT, SPARE_PARTS_FOR_TRUCKS_URL, HEADER_PARTS_FOR_TRUCKS_TEXT, BREADCRAMBS_PARTS_FOR_TRUCKS_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BREADCRAMBS_BEARINGS_TEXT } from "../../helpers/testData.js";
 import SearchResultsPage from "../../page_objects/searchResults.js";
+
 
 test.describe('header.spec', () => {
 	test.beforeEach(async ({ page }) => {
@@ -303,11 +304,65 @@ test.describe('header.spec', () => {
 
 		await expect(filtersPage.locators.getFiltersHeader()).toBeVisible();
 		expect(filtersPage.locators.getFiltersHeader()).toBeTruthy();
-		await expect(filtersPage.locators.getFiltersHeader()).toContainText(FILTERS_OILS_TEXT);
+		await expect(filtersPage.locators.getFiltersHeader()).toContainText(HEADER_FILTERS_OILS_TEXT);
 
 		await expect(filtersPage.locators.getFiltersBreadcrambs()).toBeVisible();
 		expect(filtersPage.locators.getFiltersBreadcrambs()).toBeTruthy();
 		await expect(filtersPage.locators.getFiltersBreadcrambs()).toContainText(BREADCRAMBS_FILTERS_TEXT);
+
+	});
+
+	test('TC 01.01.18.3 Verify that the user can navigate to "Запчастини до сільгосптехніки" page by clicking on the appropriate buttons in the "Каталог" menu', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickCatalogbutton();
+		const sparePartsForAgriculturalMachineryPage = await homePage.clickSparePartsForAgriculturalMachinery();
+
+		await expect(page).toHaveURL(SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_URL);
+
+		await expect(sparePartsForAgriculturalMachineryPage.locators.getSparePartsForAgriculturalMachineryHeader()).toBeVisible();
+		expect(sparePartsForAgriculturalMachineryPage.locators.getSparePartsForAgriculturalMachineryHeader()).toBeTruthy();
+		await expect(sparePartsForAgriculturalMachineryPage.locators.getSparePartsForAgriculturalMachineryHeader()).toContainText(HEADER_AGRICULTURAL_MACHINERY_TEXT);
+
+		await expect(sparePartsForAgriculturalMachineryPage.locators.getSparePartsForAgriculturalMachineryPageBreadcrambs()).toBeVisible();
+		expect(sparePartsForAgriculturalMachineryPage.locators.getSparePartsForAgriculturalMachineryPageBreadcrambs()).toBeTruthy();
+		await expect(sparePartsForAgriculturalMachineryPage.locators.getSparePartsForAgriculturalMachineryPageBreadcrambs()).toContainText(BREADCRAMBS_AGRICULTURAL_MACHINERY_TEXT);
+
+	});
+
+	test('TC 01.01.18.4 Verify that the user can navigate to "Запчастини до вантажних автомобілів" page by clicking on the appropriate buttons in the "Каталог" menu', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickCatalogbutton();
+		const sparePartsForTrucksPage = await homePage.clickSparePartsForTrucks();
+
+		await expect(page).toHaveURL(SPARE_PARTS_FOR_TRUCKS_URL);
+
+		await expect(sparePartsForTrucksPage.locators.getSparePartsForTrucksHeader()).toBeVisible();
+		expect(sparePartsForTrucksPage.locators.getSparePartsForTrucksHeader()).toBeTruthy();
+		await expect(sparePartsForTrucksPage.locators.getSparePartsForTrucksHeader()).toContainText(HEADER_PARTS_FOR_TRUCKS_TEXT);
+
+		await expect(sparePartsForTrucksPage.locators.getSparePartsForTrucksBreadcrambs()).toBeVisible();
+		expect(sparePartsForTrucksPage.locators.getSparePartsForTrucksBreadcrambs()).toBeTruthy();
+		await expect(sparePartsForTrucksPage.locators.getSparePartsForTrucksBreadcrambs()).toContainText(BREADCRAMBS_PARTS_FOR_TRUCKS_TEXT);
+
+	});
+
+	test('TC 01.01.18.5 Verify that the user can navigate to "Підшипники" page by clicking on the appropriate buttons in the "Каталог" menu', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickCatalogbutton();
+		const bearingsPage = await homePage.clickBearings();
+
+		await expect(page).toHaveURL(BEARINGS_URL);
+
+		await expect(bearingsPage.locators.getBearingsHeader()).toBeVisible();
+		expect(bearingsPage.locators.getBearingsHeader()).toBeTruthy();
+		await expect(bearingsPage.locators.getBearingsHeader()).toContainText(HEADER_BEARINGS_TEXT);
+
+		await expect(bearingsPage.locators.getBearingsBreadcrambs()).toBeVisible();
+		expect(bearingsPage.locators.getBearingsBreadcrambs()).toBeTruthy();
+		await expect(bearingsPage.locators.getBearingsBreadcrambs()).toContainText(BREADCRAMBS_BEARINGS_TEXT);
 
 	});
 
