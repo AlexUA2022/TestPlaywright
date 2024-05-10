@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { BASE_URL, HEADER_CATALOG_BUTTON_TEXT, CATALOG_MENU_CATEGORIES, FILTER_SUBCATEGORY, SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_SUBCATEGORY, TELESCOPIC_LOADER_AGRISTAR_PAGE_URL, AFTER_LOGO_CLICK_URL, SPARE_PARTS_FOR_TRUCKS_SUBCATEGORY, HEADER_BEARING_CATEGORY, OTHER_PRODUCTS_CATEGORY, OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_CATEGORY, OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_Y_SUBCATEGORY, OILS_URL, FILTERS_URL, HEADER_OILS_TEXT, BREADCRAMBS_OILS_TEXT, SEARCH_RESULTS_URL, BREADCRAMBS_FILTERS_TEXT, HEADER_FILTERS_OILS_TEXT, SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_URL, BREADCRAMBS_AGRICULTURAL_MACHINERY_TEXT, HEADER_AGRICULTURAL_MACHINERY_TEXT, SPARE_PARTS_FOR_TRUCKS_URL, HEADER_PARTS_FOR_TRUCKS_TEXT, BREADCRAMBS_PARTS_FOR_TRUCKS_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BREADCRAMBS_BEARINGS_TEXT, CATALOG_PAGE } from "../../helpers/testData.js";
+import { BASE_URL, HEADER_CATALOG_BUTTON_TEXT, CATALOG_MENU_CATEGORIES, FILTER_SUBCATEGORY, SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_SUBCATEGORY, TELESCOPIC_LOADER_AGRISTAR_PAGE_URL, AFTER_LOGO_CLICK_URL, SPARE_PARTS_FOR_TRUCKS_SUBCATEGORY, HEADER_BEARING_CATEGORY, OTHER_PRODUCTS_CATEGORY, OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_CATEGORY, OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_Y_SUBCATEGORY, OILS_URL, FILTERS_URL, HEADER_OILS_TEXT, BREADCRAMBS_OILS_TEXT, SEARCH_RESULTS_URL, BREADCRAMBS_FILTERS_TEXT, HEADER_FILTERS_OILS_TEXT, SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_URL, BREADCRAMBS_AGRICULTURAL_MACHINERY_TEXT, HEADER_AGRICULTURAL_MACHINERY_TEXT, SPARE_PARTS_FOR_TRUCKS_URL, HEADER_PARTS_FOR_TRUCKS_TEXT, BREADCRAMBS_PARTS_FOR_TRUCKS_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BREADCRAMBS_BEARINGS_TEXT, CATALOG_PAGE, OTHER_PRODUCTS_URL, HEADER_OTHER_PRODUCTS_TEXT, BREADCRAMBS_OTHER_PRODUCTS_TEXT, TIRES_AND_CAMERAS_URL, HEADER_TIRES_AND_TUBES_TEXT, BREADCRAMBS_TIRES_AND_TUBES_TEXT } from "../../helpers/testData.js";
 import SearchResultsPage from "../../page_objects/searchResults.js";
 
 
@@ -379,7 +379,6 @@ test.describe('header.spec', () => {
 		await messagePage.clickButtonCatalog();
 		await expect(page).toHaveURL(CATALOG_PAGE);
 
-
 	})
 
 	test ('TC 01.01.41, 01.01.42 verify header contains a phone number button', async ({ page }) => {
@@ -399,5 +398,76 @@ test.describe('header.spec', () => {
 		await expect(homePage.locators.getSecondNumberPhone()).toBeTruthy();
 		await expect(homePage.locators.getSecondNumberPhone()).toHaveCSS('cursor','pointer');
 	})
+
+	test('TC 01.01.18.6 Verify that the user can navigate to "Інші товари" page by clicking on the appropriate buttons in the "Каталог" menu', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickCatalogbutton();
+		const otherProductsPage = await homePage.clickOtherProducts();
+
+		await expect(page).toHaveURL(OTHER_PRODUCTS_URL);
+
+		await expect(otherProductsPage.locators.getOtherProductsHeader()).toBeVisible();
+		expect(otherProductsPage.locators.getOtherProductsHeader()).toBeTruthy();
+		await expect(otherProductsPage.locators.getOtherProductsHeader()).toContainText(HEADER_OTHER_PRODUCTS_TEXT);
+
+		await expect(otherProductsPage.locators.getOtherProductsBreadcrambs()).toBeVisible();
+		expect(otherProductsPage.locators.getOtherProductsBreadcrambs()).toBeTruthy();
+		await expect(otherProductsPage.locators.getOtherProductsBreadcrambs()).toContainText(BREADCRAMBS_OTHER_PRODUCTS_TEXT);
+
+	});
+
+	test('TC 01.01.18.7 Verify that the user can navigate to "Шини та камери" page by clicking on the appropriate buttons in the "Каталог" menu', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickCatalogbutton();
+		const tiresAndTubesPage = await homePage.clickTiresAndTubes();
+
+		await expect(page).toHaveURL(TIRES_AND_CAMERAS_URL);
+
+		await expect(tiresAndTubesPage.locators.getTiresAndTubesHeader()).toBeVisible();
+		expect(tiresAndTubesPage.locators.getTiresAndTubesHeader()).toBeTruthy();
+		await expect(tiresAndTubesPage.locators.getTiresAndTubesHeader()).toContainText(HEADER_TIRES_AND_TUBES_TEXT);
+
+		await expect(tiresAndTubesPage.locators.getTiresAndTubesBreadcrambs()).toBeVisible();
+		expect(tiresAndTubesPage.locators.getTiresAndTubesBreadcrambs()).toBeTruthy();
+		await expect(tiresAndTubesPage.locators.getTiresAndTubesBreadcrambs()).toContainText(BREADCRAMBS_TIRES_AND_TUBES_TEXT);
+
+	});
+
+	test('TC 01.01.20. Verify that the "Масла i автохiмiя" button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickCatalogbutton();
+
+		await expect(homePage.locators.getOilsAndAutomotiveChemicals()).toBeVisible();
+		expect(homePage.locators.getOilsAndAutomotiveChemicals()).toBeTruthy();
+		await expect(homePage.locators.getOilsAndAutomotiveChemicals()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 01.01.21. Verify that the "Шини та камери" button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickCatalogbutton();
+
+		await expect(homePage.locators.getTiresAndTubesCategory()).toBeVisible();
+		expect(homePage.locators.getTiresAndTubesCategory()).toBeTruthy();
+		await expect(homePage.locators.getTiresAndTubesCategory()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 01.01.22. Verify that the buttons in the "Каталог" menu have the color rgb(24, 73, 169) after hovering over them', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickCatalogbutton();
+		await homePage.oilsAndAutomotiveChemicalsHover();
+
+		await expect(homePage.locators.getOilsAndAutomotiveChemicals()).toBeVisible();
+		expect(homePage.locators.getOilsAndAutomotiveChemicals()).toBeTruthy();
+		await expect(homePage.locators.getOilsAndAutomotiveChemicals()).toHaveCSS('color', 'rgb(24, 73, 169)');
+
+	});
+
 
 })
