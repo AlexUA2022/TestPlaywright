@@ -18,12 +18,41 @@ export const CATALOG_MENU_OILS_URLs_END_POINTS = [
 	'?page=1&subcategories=655520af5e1b0543ab8e8d93',
 	'?page=1&subcategories=655520af5e1b0543ab8e8d94',
 	'?page=1&subcategories=655520af5e1b0543ab8e8d95'
-]
+];
+export const CATALOG_MENU_FILTERS_URLs_END_POINTS = [
+	'?page=1&subcategories=6544ddc494cee34727c38261',
+	'?page=1&subcategories=6544ddc494cee34727c38262',
+	'?page=1&subcategories=6544ddc494cee34727c38263',
+	'?page=1&subcategories=6544ddc494cee34727c38264'
+];
+export const CATALOG_MENU_SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_URLs_END_POINTS = [
+	'?page=1&subcategories=65551f425e1b0543ab8e8d88',
+	'?page=1&subcategories=65551f425e1b0543ab8e8d89',
+	'?page=1&subcategories=65551f425e1b0543ab8e8d8a',
+	'?page=1&subcategories=65551f425e1b0543ab8e8d8b',
+	'?page=1&subcategories=65551f425e1b0543ab8e8d8c'
+];
+export const CATALOG_MENU_SPARE_PARTS_FOR_TRUCKS_URLs_END_POINTS = [
+	'?page=1&subcategories=64bfc941e3a3db530e721b3a',
+	'?page=1&subcategories=64bfc941e3a3db530e721b3b',
+	'?page=1&subcategories=64bfc941e3a3db530e721b3c',
+	'?page=1&subcategories=64bfc941e3a3db530e721b3d',
+	'?page=1&subcategories=64bfc941e3a3db530e721b3e',
+	'?page=1&subcategories=64bfc941e3a3db530e721b3f',
+	'?page=1&subcategories=64bfc941e3a3db530e721b40',
+	'?page=1&subcategories=64bfc941e3a3db530e721b41',
+	'?page=1&subcategories=64bfc941e3a3db530e721b42',
+	'?page=1&subcategories=64bfc941e3a3db530e721b43',
+	'?page=1&subcategories=64bfc941e3a3db530e721b44'
+];
 
 //test data
 export const HEADER_CATALOG_BUTTON_TEXT = 'Каталог';
 export const CATALOG_MENU_CATEGORIES = ['Масла та автохімія', 'Фільтри', 'Запчастини до сільгосптехніки', 'Запчастини до вантажних автомобілів', 'Підшипники', 'Інші товари', 'Шини та камери'];
-	export const CATALOG_MENU_OILS_CATEGORIES = ['Моторні', 'Трансмісійні', 'Гідравлічні', 'Змазки', 'Автохімія'];
+export const CATALOG_MENU_OILS_CATEGORIES = ['Моторні', 'Трансмісійні', 'Гідравлічні', 'Змазки', 'Автохімія'];
+export const CATALOG_MENU_FILTERS_CATEGORIES = ['Масляні', 'Паливні', 'Повітряні', 'Інші'];
+export const CATALOG_MENU_SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_CATEGORIES = ['John Deere', 'Case та New Holland', 'Claas','МТЗ', 'Інша сільгосптехніка'];
+export const CATALOG_MENU_SPARE_PARTS_FOR_TRUCKS_CATEGORIES = ['DAF', 'MAN', 'Mersedes-Benz','Renault', 'VOLVO', 'IVECO', 'Scania', 'КАМАЗ', 'МАЗ', 'ГАЗ', 'ЗІЛ'];
 export const FILTER_SUBCATEGORY = ['Масляні', 'Паливні', 'Повітряні','Інші'];
 export const SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_SUBCATEGORY = ['John Deere', 'Case та New Holland', 'Claas','МТЗ', 'Інша сільгосптехніка'];
 export const SPARE_PARTS_FOR_TRUCKS_SUBCATEGORY = ['DAF', 'MAN', 'Mersedes-Benz','Renault', 'VOLVO', 'IVECO', 'Scania', 'КАМАЗ', 'МАЗ', 'ГАЗ', 'ЗІЛ'];
@@ -45,6 +74,7 @@ export const HEADER_OTHER_PRODUCTS_TEXT = 'Інші товари';
 export const BREADCRAMBS_OTHER_PRODUCTS_TEXT = 'Інші товари';
 export const HEADER_TIRES_AND_TUBES_TEXT = 'Шини та камери';
 export const BREADCRAMBS_TIRES_AND_TUBES_TEXT = 'Шини та камери';
+export const HEADER_PRIVACY_POLICY_LINK_TEXT = 'Політика конфіденційності';
 
 
 //login  credential

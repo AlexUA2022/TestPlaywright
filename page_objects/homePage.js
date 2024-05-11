@@ -15,6 +15,7 @@ class HomePage {
 
   locators = {
 		getLogo: () => this.page.locator('div').filter({ hasText: /^КаталогВведіть пошукове слово$/ }).getByRole('img').first(),
+		getLogoFooter: () => this.page.getByRole('contentinfo').getByRole('img'),
 		getCatalogbutton: () => this.page.getByRole('button', { name: 'Каталог' }),
 		getdropdownMenu: () => this.page.getByRole('banner').getByRole('list'),
 		getFilterСhapter: () => this.page.getByRole('button', { name: 'Фільтри' }),
@@ -39,9 +40,14 @@ class HomePage {
 	   getPhoneNumberDropdown: () => this.page.locator('div').filter({ hasText: /^\+38 \(096\) 361 83 98Кошик$/ }).getByRole('img').nth(1),
 	   getfirstNumberPhone: () => this.page.getByRole('banner').locator('li').filter({ hasText: '+38 (096) 361 83' }),
 	   getSecondNumberPhone: () => this.page.getByRole('banner').locator('li').filter({ hasText: '+38 (063) 507 12' }),
-		getCatalogMenuButton: (pageName) => this.page.getByText(pageName, {exact: true})
+      getCatalogMenuButton: (pageName) => this.page.getByText(pageName, {exact: true}),
+		getCatalogMenuButton2: (pageName) => this.page.getByRole('button', { name: pageName, exact: true }),
+	   getCartButton: () => this.page.getByRole('button', { name: 'Кошик', exact: true }),
+	   getCartPopUp: () => this.page.getByText('КошикОчистити кошикКошик порожнійПочніть додавати товари прямо зараз!Перейти до '),
+		getToTheBuyer: () => this.page.getByRole('heading', { name: 'Покупцеві' }),
+		getOnlineHelp: () => this.page.getByRole('contentinfo').getByText('Онлайн допомога'),
+		getPrivacyPolicy: () => this.page.getByText('Політика конфіденційності')
   };
-
 
 async open() {
 	await this.page.goto("/");
@@ -54,6 +60,10 @@ async clickCatalogbutton() {
 
 async clickCatalogMenuButton(pageName) {
 	await this.locators.getCatalogMenuButton(pageName).click();
+}
+
+async clickCatalogMenuButton2(pageName) {
+	await this.locators.getCatalogMenuButton2(pageName).click();
 }
 
 async filterHover() {
@@ -91,6 +101,11 @@ async clickFiltersCategory() {
 	return new FiltersPage(this.page);
 }
 
+async clickFiltersCategoryHover() {
+	const filterChapter = await this.locators.getFilterСhapter();
+	await filterChapter.hover();
+}
+
 async clickSparePartsForAgriculturalMachinery() {
 	await this.locators.getSparePartsForAgriculturalMachinery().click();
 	return new SparePartsForAgriculturalMachineryPage(this.page);
@@ -124,7 +139,7 @@ async enterValidValueSearchField() {
 async searchField() {
 	await this.locators.getSearchField().hover();
 	// return this;
-	}
+}
 async enterNotValidValueSearchField() {
 	await this.locators.getSearchField().fill('dgdg');
 	// return this;
@@ -137,6 +152,16 @@ async clickButtonSearch() {
 
 async clickPhoneNumberDropdown() {
 	await this.locators.getPhoneNumberDropdown().click();
+	return this;
+}
+
+async clickCartButton() {
+	await this.locators.getCartButton().click();
+	return this;
+}
+
+async clickOnlineHelp() {
+	await this.locators.getOnlineHelp().click();
 	return this;
 }
 
