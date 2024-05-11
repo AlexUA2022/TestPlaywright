@@ -46,7 +46,14 @@ class HomePage {
 	   getCartPopUp: () => this.page.getByText('КошикОчистити кошикКошик порожнійПочніть додавати товари прямо зараз!Перейти до '),
 		getToTheBuyer: () => this.page.getByRole('heading', { name: 'Покупцеві' }),
 		getOnlineHelp: () => this.page.getByRole('contentinfo').getByText('Онлайн допомога'),
-		getPrivacyPolicy: () => this.page.getByText('Політика конфіденційності')
+		getPrivacyPolicy: () => this.page.getByText('Політика конфіденційності'),
+		getPublicOfferAgreementLink: () => this.page.locator('li').filter({ hasText: 'Договір публічної оферти' }),
+		getCatalogSection: () => this.page.getByRole('heading', { name: 'Каталог' }),
+		getSparePartsForAgriculturalMachineryFooterLink: () => this.page.getByRole('contentinfo').getByText('Запчастини до сільгосптехніки'),
+		getSparePartsForTrucksFooterLink: () => this.page.getByRole('contentinfo').getByText('Запчастини до вантажних автомобілів'),
+		getOilsAndAutomotiveChemicalsFooterLink: () => this.page.getByRole('contentinfo').getByText('Масла та автохімія'),
+		getTiresAndTubesFooterLink: () => this.page.getByRole('contentinfo').getByText('Шини та камери')
+
   };
 
 async open() {
