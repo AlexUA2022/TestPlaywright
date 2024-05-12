@@ -45,6 +45,15 @@ export const CATALOG_MENU_SPARE_PARTS_FOR_TRUCKS_URLs_END_POINTS = [
 	'?page=1&subcategories=64bfc941e3a3db530e721b43',
 	'?page=1&subcategories=64bfc941e3a3db530e721b44'
 ];
+export const CATALOG_SECTION_LINKS_FOOTER_URLs_END_POINTS = [
+	'?page=1&categories=655520af5e1b0543ab8e8d90',
+	'?page=1&categories=64bfc9a4e3a3db530e721b51',
+	'?page=1&categories=65551f425e1b0543ab8e8d87',
+	'?page=1&categories=64bfc941e3a3db530e721b39',
+	'?page=1&categories=64bfc9c8e3a3db530e721b59',
+	'?page=1&categories=64bfc9eae3a3db530e721b61',
+	'?page=1&categories=64bfc9dce3a3db530e721b5d'
+];
 
 //test data
 export const HEADER_CATALOG_BUTTON_TEXT = 'Каталог';
@@ -75,13 +84,21 @@ export const BREADCRAMBS_OTHER_PRODUCTS_TEXT = 'Інші товари';
 export const HEADER_TIRES_AND_TUBES_TEXT = 'Шини та камери';
 export const BREADCRAMBS_TIRES_AND_TUBES_TEXT = 'Шини та камери';
 export const HEADER_PRIVACY_POLICY_LINK_TEXT = 'Політика конфіденційності';
+export const HEADER_ONLINE_HELP_LINK_TEXT = 'Онлайн допомога';
 export const FOOTER_PUBLIC_OFFER_AGREEMENT_LINK_TEXT ='Договір публічної оферти';
+export const FOOTER_COPYRIGHT_TRADEMARK_TEXT ='©2024 Всі права захищені';
 export const HEADER_CATALOG_SECTION_TEXT = 'Каталог';
+export const HEADER_TO_THE_BUYER_SECTION_TEXT = 'Покупцеві';
 export const FOOTER_SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_LINK_TEXT ='Запчастини до сільгосптехніки';
 export const FOOTER_SPARE_PARTS_FOR_TRUCKS_LINK_TEXT ='Запчастини до вантажних автомобілів';
 export const FOOTER_OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_LINK_TEXT ='Масла та автохімія';
 export const FOOTER_TIRES_AND_TUBES_LINK_TEXT ='Шини та камери';
-
+export const FOOTER_FILTERS_LINK_TEXT ='Фільтри';
+export const FOOTER_BEARINGS_LINK_TEXT ='Підшипники';
+export const FOOTER_OTHER_PRODUCTS_LINK_TEXT ='Інші товари';
+export const CONTACT_PHONE_NUMBERS = ['+38 (096) 361 83 98','+38 (063) 507 12 31'];
+export const FOOTER_WORK_SCHEDULE_LIST = ['Пн - Пт 9:00-18:00', 'Сб - 9:00-13:00', 'Нд - вихідний', 'Адреса магазину'];
+export const CATALOG_SECTION_LINKS_FOOTER = ['Масла та автохімія', 'Фільтри', 'Запчастини до сільгосптехніки', 'Запчастини до вантажних автомобілів', 'Підшипники', 'Інші товари', 'Шини та камери'];
 
 //login  credential
 
