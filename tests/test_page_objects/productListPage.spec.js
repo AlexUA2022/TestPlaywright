@@ -30,4 +30,49 @@ test.describe('productListPage.spec.spec', () => {
 
 	});
 
+	test('TC 03.01.18 Verify that the “Країна” dropdown contains the "Введіть країну" search field', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const isDropdownMenuVisible = await homePage.locators.getFilterUnitDropdownKrayinaCategorySection().isVisible();
+
+		if (!isDropdownMenuVisible) {
+			 await homePage.clickFilterUnitDropdownKrayinaCategoryButton();
+		}
+
+		expect(homePage.locators.getFilterUnitDropdownKrayinaCategorySearchField()).toBeTruthy();
+		await expect(homePage.locators.getFilterUnitDropdownKrayinaCategorySearchField()).toBeVisible();
+
+	});
+
+	test('TC 03.01.19 Verify that the "Введіть країну" search field contains the "Magnifying glass" icon', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const isDropdownMenuVisible = await homePage.locators.getFilterUnitDropdownKrayinaCategorySection().isVisible();
+
+		if (!isDropdownMenuVisible) {
+			 await homePage.clickFilterUnitDropdownKrayinaCategoryButton();
+		}
+
+		expect(homePage.locators.getKrayinaCategorySearchFieldIcon()).toBeTruthy();
+
+		const iconElement = await homePage.locators.getKrayinaCategorySearchFieldIcon();
+		expect(iconElement).not.toBeNull();
+
+	});
+
+	test('TC 03.01.20 Verify that the search field contains the placeholder', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const isDropdownMenuVisible = await homePage.locators.getFilterUnitDropdownKrayinaCategorySection().isVisible();
+
+		if (!isDropdownMenuVisible) {
+			 await homePage.clickFilterUnitDropdownKrayinaCategoryButton();
+		}
+
+		expect(homePage.locators.getKrayinaCategorySearchFieldPlaceholder()).toBeTruthy();
+		const placeholderElement = await homePage.locators.getKrayinaCategorySearchFieldPlaceholder();
+		expect(placeholderElement).not.toBeNull();
+
+	});
+
 })
