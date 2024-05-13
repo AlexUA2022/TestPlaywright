@@ -220,6 +220,7 @@ test.describe('footer.spec', () => {
 		expect(hrefAttribute).toBe('/image');
 		// console.log("/image", hrefAttribute);
 
-	})
+	});
 
-})
+
+	})
