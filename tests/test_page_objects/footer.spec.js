@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage";
-import { BASE_URL, HEADER_PRIVACY_POLICY_LINK_TEXT, FOOTER_PUBLIC_OFFER_AGREEMENT_LINK_TEXT, HEADER_CATALOG_SECTION_TEXT, FOOTER_SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_LINK_TEXT, FOOTER_SPARE_PARTS_FOR_TRUCKS_LINK_TEXT, FOOTER_OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_LINK_TEXT, FOOTER_TIRES_AND_TUBES_LINK_TEXT, CONTACT_PHONE_NUMBERS, FOOTER_WORK_SCHEDULE_LIST, FOOTER_FILTERS_LINK_TEXT, FOOTER_BEARINGS_LINK_TEXT, FOOTER_OTHER_PRODUCTS_LINK_TEXT, HEADER_TO_THE_BUYER_SECTION_TEXT, HEADER_ONLINE_HELP_LINK_TEXT, FOOTER_COPYRIGHT_TRADEMARK_TEXT, CATALOG_SECTION_LINKS_FOOTER, CATALOG_SECTION_LINKS_FOOTER_URLs_END_POINTS } from "../../helpers/testData"
+import { BASE_URL, HEADER_PRIVACY_POLICY_LINK_TEXT, FOOTER_PUBLIC_OFFER_AGREEMENT_LINK_TEXT, HEADER_CATALOG_SECTION_TEXT, FOOTER_SPARE_PARTS_FOR_AGRICULTURAL_MACHINERY_LINK_TEXT, FOOTER_SPARE_PARTS_FOR_TRUCKS_LINK_TEXT, FOOTER_OILS_AND_AUTOMOTIVE_CHEMICAL_PRODUCTS_LINK_TEXT, FOOTER_TIRES_AND_TUBES_LINK_TEXT, CONTACT_PHONE_NUMBERS, FOOTER_WORK_SCHEDULE_LIST, FOOTER_FILTERS_LINK_TEXT, FOOTER_BEARINGS_LINK_TEXT, FOOTER_OTHER_PRODUCTS_LINK_TEXT, HEADER_TO_THE_BUYER_SECTION_TEXT, HEADER_ONLINE_HELP_LINK_TEXT, FOOTER_COPYRIGHT_TRADEMARK_TEXT, CATALOG_SECTION_LINKS_FOOTER, CATALOG_SECTION_LINKS_FOOTER_URLs_END_POINTS, STORE_ADDRESS_LINK_FOOTER } from "../../helpers/testData"
 
 test.describe('footer.spec', () => {
 	test.beforeEach(async ({ page }) => {
@@ -41,7 +41,7 @@ test.describe('footer.spec', () => {
 
 		await expect(homePage.locators.getCatalogSectionFooter()).toBeVisible();
 		expect(homePage.locators.getCatalogSectionFooter()).toBeTruthy();
-		
+
 		await expect(homePage.locators.getHeaderCatalogSectionFooter()).toBeVisible();
 		expect(homePage.locators.getHeaderCatalogSectionFooter()).toBeTruthy();
 		await expect(homePage.locators.getHeaderCatalogSectionFooter()).toContainText(HEADER_CATALOG_SECTION_TEXT);
@@ -143,7 +143,7 @@ test.describe('footer.spec', () => {
 
 		await expect(homePage.locators.getToTheBuyerSectionFooter()).toBeVisible();
 		expect(homePage.locators.getToTheBuyerSectionFooter()).toBeTruthy();
-		
+
 		await expect(homePage.locators.getHeaderToTheBuyerSectionFooter()).toBeVisible();
 		expect(homePage.locators.getHeaderToTheBuyerSectionFooter()).toBeTruthy();
 		await expect(homePage.locators.getHeaderToTheBuyerSectionFooter()).toContainText(HEADER_TO_THE_BUYER_SECTION_TEXT);
@@ -173,7 +173,7 @@ test.describe('footer.spec', () => {
 		test(`TC 02.01.21 Verify that the user can navigate to ${namePage} page by clicking on the appropriate link in the "Каталог" section of website footer `, async ({ page }) => {
 			const homePage = new HomePage(page);
 
-			await homePage.clickCatalogSectionLiksFooter(namePage);
+			await homePage.clickCatalogSectionLinksFooter(namePage);
 
 			await expect(page).toHaveURL(BASE_URL + CATALOG_SECTION_LINKS_FOOTER_URLs_END_POINTS[indx]);
 			await expect(page.getByRole('link', { name: namePage, exact: true }).first()).toHaveText(namePage);
@@ -181,5 +181,45 @@ test.describe('footer.spec', () => {
 		})
 
 	});
+
+	test('ТС.02.01.22 Verify that the user can navigate to the "Онлайн допомога" iframe page by clicking on the appropriate link in the "Покупцеві" section of website footer ', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickOnlineHelpFooterLinksFooter();
+
+		const iframeOnlineHelpFooter = await homePage.locators.getIframeOnlineHelpFooter();
+
+
+		await expect(iframeOnlineHelpFooter).toBeVisible();
+		expect(iframeOnlineHelpFooter).toBeTruthy();
+
+	});
+
+ test('ТС.02.01.23 Verify that the header of the "Онлайн допомога" iframe page contains the store logo ', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickOnlineHelpFooterLinksFooter();
+
+		const iframeOnlineHelpLogoFooter = await homePage.locators.getIframeOnlineHelpLogoFooter();
+
+		// Проверяем, что iframe и элемент ".logo-wrapper>img" внутри него существуют
+		expect(iframeOnlineHelpLogoFooter).toBeTruthy();
+
+		const logoWrapperImage = await iframeOnlineHelpLogoFooter;
+
+		// Проверяем наличие элемента ".logo-wrapper>img" в iframe
+		expect(logoWrapperImage).not.toBeNull();
+
+	});
+
+	test("TC 02.01.17 Verify that the section 'Графiк роботи' contains the store's address, link", async ({ page }) => {
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getStoreAdressFooter()).toHaveText(STORE_ADDRESS_LINK_FOOTER);
+		const linkElement = await page.$('a');
+		const hrefAttribute = await linkElement.getAttribute('href');
+		expect(hrefAttribute).toBe('/image');
+		// console.log("/image", hrefAttribute);
+
+	})
 
 })
