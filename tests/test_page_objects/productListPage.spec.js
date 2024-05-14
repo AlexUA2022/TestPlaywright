@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST } from "../../helpers/testData.js";
+import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT } from "../../helpers/testData.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -15,7 +15,6 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		await expect(homePage.locators.getFilterUnitDropdownKrayinaCategory()).toBeVisible();
-		await expect(homePage.locators.getFilterUnitDropdownKrayinaCategory()).toBeVisible();
 		await expect(homePage.locators.getFilterUnitDropdownKrayinaCategory()).toHaveText(FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT);
 
     // Нажимаем на кнопку дропдаун меню только в том случае, если меню еще не открыто
@@ -24,7 +23,7 @@ test.describe('productListPage.spec.spec', () => {
     if (!isDropdownMenuVisible) {
         await homePage.clickFilterUnitDropdownKrayinaCategoryButton();
     }
-  
+
 		// Проверяем, что выпадающее меню видно
 		await expect(homePage.locators.getFilterUnitDropdownKrayinaCategorySection()).toBeVisible();
 
@@ -88,5 +87,100 @@ test.describe('productListPage.spec.spec', () => {
 		}
 
 	});
+
+	test('TC 03.01.0 Verify that the contains a filter-containe', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getFilterContaine()).toBeVisible()
+	});
+
+	test('TC 03.01.21 Verify that the search field accepts letters', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await homePage.clickKrayinaCategorySearchFieldPlaceholder();
+		await homePage.fillKrayinaCategorySearchFieldPlaceholder();
+
+		await expect(homePage.locators.getUkraineCountryItem()).toBeVisible();
+		await expect(homePage.locators.getUkraineCountryItem()).toHaveText(UKRAINE_COUNTRY_ITEM_TEXT);
+
+	});
+
+	test('TC 03.01.25 Verify that the “Країна” dropdown contains checkboxes', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		for (const item of СOUNTRY_LIST) {
+			await expect(homePage.locators.getCountryItemByCheckbox(item)).toBeVisible();
+		 }
+
+	});
+
+	test('TC 03.01.26 Verify that the user can select the country of the manufacturer by clicking on the checkbox', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.checkBrazilCountryItemCheckbox();
+
+		const isChecked = await homePage.locators.getBrazilCountryItemCheckbox().isChecked();
+		expect(isChecked).toBe(true);
+
+	});
+
+	test('TC 03.01.27 Verify that the list of countries scrolls down', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+	   // Находим скроллбар внутри блока со списком стран
+		const scrollbar = page.locator('#style-scroll').nth(1);
+
+      // Прокручиваем список вниз
+      await scrollbar.evaluate((countryDropdown) => {
+          countryDropdown.scrollTop = countryDropdown.scrollHeight;
+      });
+
+      // Подождем, чтобы список успел прокрутиться и обновиться
+      await page.waitForTimeout(1000);
+
+      // Проверяем, что список стран был прокручен вниз
+      const isScrolledDown = await scrollbar.evaluate((countryDropdown) => {
+          return countryDropdown.scrollTop > 0; // Если значение scrollTop больше 0, значит список был прокручен
+      });
+
+      // Проверяем, что список был прокручен вниз успешно
+      expect(isScrolledDown).toBe(true);
+
+	});
+
+	test('TC 03.01.28 Verify that the list of countries scrolls up', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+	   // Находим скроллбар внутри блока со списком стран
+		const scrollbar = page.locator('#style-scroll').nth(1);
+
+      // Прокручиваем список вниз
+      await scrollbar.evaluate((countryDropdown) => {
+          countryDropdown.scrollTop = countryDropdown.scrollHeight;
+      });
+
+      // Подождем, чтобы список успел прокрутиться и обновиться
+      await page.waitForTimeout(1000);
+
+      // Проверяем, что список стран был прокручен вниз
+      const isScrolledDown = await scrollbar.evaluate((countryDropdown) => {
+          return countryDropdown.scrollTop > 0; // Если значение scrollTop больше 0, значит список был прокручен
+      });
+
+      // Проверяем, что список был прокручен вниз успешно
+      expect(isScrolledDown).toBe(true);
+  
+		// Прокручиваем список вверх
+		await scrollbar.evaluate((countryDropdown) => {
+			 countryDropdown.scrollTop = 0;
+		});
+  
+		// Подождем, чтобы список успел прокрутиться и обновиться
+		await page.waitForTimeout(1000);
+  
+		// Проверяем, что список стран был прокручен вверх
+		const isScrolledUp = await scrollbar.evaluate((countryDropdown) => {
+			 return countryDropdown.scrollTop === 0; // Если значение scrollTop равно 0, значит список был прокручен вверх
+		});
+		expect(isScrolledUp).toBe(true);
+  });
 
 })
