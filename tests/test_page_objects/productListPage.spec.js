@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT } from "../../helpers/testData.js";
+import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT} from "../../helpers/testData.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -125,7 +125,7 @@ test.describe('productListPage.spec.spec', () => {
 	test('TC 03.01.27 Verify that the list of countries scrolls down', async ({ page }) => {
 		const homePage = new HomePage(page);
 
-	   // Находим скроллбар внутри блока со списком стран
+	   // Находим локатор блока, внутри у которого списк стран и скроллбар
 		const scrollbar = page.locator('#style-scroll').nth(1);
 
       // Прокручиваем список вниз
@@ -133,7 +133,7 @@ test.describe('productListPage.spec.spec', () => {
           countryDropdown.scrollTop = countryDropdown.scrollHeight;
       });
 
-      // Подождем, чтобы список успел прокрутиться и обновиться
+      // Ждем, чтобы список успел прокрутиться и обновиться
       await page.waitForTimeout(1000);
 
       // Проверяем, что список стран был прокручен вниз
@@ -149,7 +149,7 @@ test.describe('productListPage.spec.spec', () => {
 	test('TC 03.01.28 Verify that the list of countries scrolls up', async ({ page }) => {
 		const homePage = new HomePage(page);
 
-	   // Находим скроллбар внутри блока со списком стран
+	   // Находим локатор блока, внутри у которого списк стран и скроллбар
 		const scrollbar = page.locator('#style-scroll').nth(1);
 
       // Прокручиваем список вниз
@@ -181,6 +181,66 @@ test.describe('productListPage.spec.spec', () => {
 			 return countryDropdown.scrollTop === 0; // Если значение scrollTop равно 0, значит список был прокручен вверх
 		});
 		expect(isScrolledUp).toBe(true);
-  });
+
+	});
+
+	test('TC 03.01.29 Verify that the filter unit contains the “Застосувати” button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		expect(homePage.locators.getZastosuvatuButton()).toBeTruthy();
+		await expect(homePage.locators.getZastosuvatuButton()).toBeVisible();
+		await expect(homePage.locators.getZastosuvatuButton()).toHaveText(ZASTOSUVATU_BUTTON_TEXT);
+
+	});
+
+	test('TC 03.01.30 Verify that the “Застосувати” button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await expect(homePage.locators.getZastosuvatuButton()).toBeVisible();
+		expect(homePage.locators.getZastosuvatuButton()).toBeTruthy();
+		await expect(homePage.locators.getZastosuvatuButton()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 03.01.31 Verify that the “Застосувати” button displays the number of selected products by means of filtering', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		// Выбираем (чекаем) чекбокс страны Бразилия
+		await homePage.checkBrazilCountryItemCheckbox();
+  
+		// Находим элемент, который отображает количество товаров для выбранной страны (находится напротив выбранной страны)
+		const productCountElement = await homePage.locators.getBrazilCountryCountItems();
+  
+		// Проверяем, что элемент видим и содержит текст с количеством товаров (в данном случае - "1")
+		expect(await productCountElement.isVisible()).toBe(true);
+		expect(await productCountElement.textContent()).toContain('1');
+  
+		// Проверяем, что кнопка "Застосувати" отображает правильное количество выбранных товаров
+		const applyButton = await homePage.locators.getZastosuvatuButtonWithItem()
+		expect(await applyButton.isVisible()).toBe(true);
+		expect(await applyButton.textContent()).toContain('(1)'); // Проверяем, что в тексте кнопки есть "(1)"
+
+	});
+
+	test('TC 03.01.32 Verify that the filter unit contains the “Скинути” button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		expect(homePage.locators.getSkunytuButton()).toBeTruthy();
+		await expect(homePage.locators.getSkunytuButton()).toBeVisible();
+		await expect(homePage.locators.getSkunytuButton()).toHaveText(SKUNYTU_BUTTON_TEXT);
+
+	});
+
+	test('TC 03.01.33 Verify that the “Скинути” button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+      //Чтобы выполнить проверку, нужно что-то чекнуть, поскольку по дефолту курсор не поинтер
+		await homePage.checkBrazilCountryItemCheckbox();
+
+		await expect(homePage.locators.getSkunytuButton()).toBeVisible();
+		expect(homePage.locators.getSkunytuButton()).toBeTruthy();
+		await expect(homePage.locators.getSkunytuButton()).toHaveCSS('cursor', 'pointer');
+		
+	});
 
 })
