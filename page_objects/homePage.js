@@ -83,7 +83,14 @@ class HomePage {
 		getBrazilCountryCountItems: () => this.page.locator('li').filter({ hasText: 'Бразилія' }).locator('span'),
 		getZastosuvatuButton: () => this.page.getByRole('button', { name: 'Застосувати' }),
 		getZastosuvatuButtonWithItem: () => this.page.getByRole('button', { name: 'Застосувати (1)' }),
-		getSkunytuButton: () => this.page.getByRole('button', { name: 'Скинути' })
+		getSkunytuButton: () => this.page.getByRole('button', { name: 'Скинути' }),
+		getFilterPrice: () => this.page.getByText('Ціна—'),
+		getFilterPriceMin: () => this.page.getByPlaceholder('4'),
+		getFilterPriceMax: () => this.page.getByPlaceholder('000'),
+		getFilterPriceDropdown: () => this.page.locator('div').filter({ hasText: /^Ціна—$/ }).getByRole('button'),
+		getProductListPage: (item) => this.page.locator('ul').filter({ hasText: 'Артикул: 667248.0Пас ротора' }),
+		getBrazilCountryChips: () => this.page.getByRole('button', { name: 'Бразилія' }),
+		getBrazilCountryChipsCrossIcon: () => this.page.locator('.stroke-iconPrimary.stroke-2')
 		};
 
 	async open() {
@@ -229,6 +236,31 @@ class HomePage {
 
 	async checkBrazilCountryItemCheckbox() {
 		await this.locators.getBrazilCountryItemCheckbox().check();
+	}
+
+	async fillFilterPriceMinField() {
+		await this.locators.getFilterPriceMin().fill('555');
+		return this;
+	}
+
+	async clickFilterPriceDropdown() {
+		await this.locators.getFilterPriceDropdown().click();
+	}
+
+	async clickSkunytuButton() {
+		await this.locators.getSkunytuButton().click();
+	}
+
+	async clickZastosuvatuButton() {
+		await this.locators.getZastosuvatuButton().click();
+	}
+
+	async clickBrazilCountryChipsCrossIcon() {
+		await this.locators.getBrazilCountryChipsCrossIcon().click();
+	}
+
+	async clickBrazilCountryChips() {
+		await this.locators.getBrazilCountryChips().click();
 	}
 
 }
