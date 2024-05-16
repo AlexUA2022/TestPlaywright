@@ -111,6 +111,11 @@ export const BRAZIL_CHIPS_TEXT = 'Бразилія';
 export const MANUFACTURERS_LIST = ['123', '132', 'Agri Parts', 'AIRKRAFT', 'Armour', 'Bellota', 'BOSCH', 'CLAAS', 'CNH', 'DIECI', 'Donaldson', 'Donaldson', 'GASKA', 'GENERATOR', 'Great Plains', 'Greenly', 'HECHT', 'John Deere', 'Mobil', 'Optibelt', 'PRISTA', 'RiMa', 'Sachs', 'SKF', 'Snow', 'Timken', 'TIMKEN', 'TUCHA', 'Turtle', 'Venturoso', 'Vitol', 'WOODY', 'Д-240', 'КАМАЗ', 'марка', 'ММЗ', 'Призма', 'Сонце'];
 export const X_OCHUSTUTU_BUTTON_TEXT = 'Очистити';
 export const LEARN_MORE_BUTTON_TEXT = 'Дізнатись більше';
+export const DO_YOU_WANT_SOMETHING_SPECIAL_DIALOGBOX_TEXT = 'Бажаєте щось особливе?';
+export const DESCRIPTION_TEXT = 'Розкажіть нам про ваші побажання. А про інше потурбується менеджер.';
+export const PHONE_FIELD_HEADER_TEXT = 'Номер телефону';
+export const COMMENT_FIELD_HEADER_TEXT = 'Коментар';
+export const SEND_BUTTON_TEXT = 'Відправити';
 
 //login  credential
 
