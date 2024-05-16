@@ -88,10 +88,20 @@ class HomePage {
 		getFilterPriceMin: () => this.page.getByPlaceholder('4'),
 		getFilterPriceMax: () => this.page.getByPlaceholder('000'),
 		getFilterPriceDropdown: () => this.page.locator('div').filter({ hasText: /^Ціна—$/ }).getByRole('button'),
-		getProductListPage: (item) => this.page.locator('ul').filter({ hasText: 'Артикул: 667248.0Пас ротора' }),
+		getProductListPage: (item) => this.page.locator('ul').filter({ hasText: 'ВідсутнійАртикул:' }),
 		getBrazilCountryChips: () => this.page.getByRole('button', { name: 'Бразилія' }),
-		getBrazilCountryChipsCrossIcon: () => this.page.locator('.stroke-iconPrimary.stroke-2')
-		};
+		getBrazilCountryChipsCrossIcon: () => this.page.locator('.stroke-iconPrimary.stroke-2'),
+		getManufacturerDropdown: () => this.page.locator('div').filter({ hasText: /^Виробник$/ }).first(),
+		getManufacturerSectionList: () => this.page.getByText('Виробник 1232 1321 Agri'),
+		getManufactureSectionChekbox: (box) => this.page.getByLabel(box),
+		getManufactureSectionChekboxBoschCheckbox: () => this.page.getByLabel('BOSCH'),
+		getManufacturerSectionSearchField: () => this.page.locator('.filter').first(),
+		getManufacturerSectionSearchFieldPlaceholder: () => this.page.getByPlaceholder('Введіть виробника'),
+		getXOchustutuButton: () => this.page.getByRole('button', { name: 'Очистити' }),
+		getXOchustutuButtonCrossIcon: () => this.page.locator('.stroke-iconBrandDark.stroke-2'),
+		getLearnMoreButton: () => this.page.getByRole('button', { name: 'Дізнатись більше' })
+
+	};
 
 	async open() {
 		await this.page.goto("/");
@@ -184,6 +194,7 @@ class HomePage {
 		await this.locators.getSearchField().hover();
 		// return this;
 	}
+
 	async enterNotValidValueSearchField() {
 		await this.locators.getSearchField().fill('dgdg');
 		// return this;
@@ -263,5 +274,22 @@ class HomePage {
 		await this.locators.getBrazilCountryChips().click();
 	}
 
+	async checkManufactureSectionChekboxBoschCheckbox() {
+		await this.locators.getManufactureSectionChekboxBoschCheckbox().check();
+	}
+
+	async clickManufacturerSectionSearchFieldPlaceholder() {
+		await this.locators.getManufacturerSectionSearchFieldPlaceholder().click()
+	}
+
+	async clickXOchustutuButtonCrossIcon() {
+		await this.locators.getXOchustutuButtonCrossIcon().click()
+	}
+
+	async clickXOchustutuButton() {
+		await this.locators.getXOchustutuButton().click()
+	}
+
 }
+
 export default HomePage;

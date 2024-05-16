@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT} from "../../helpers/testData.js";
+import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT, MANUFACTURERS_LIST, X_OCHUSTUTU_BUTTON_TEXT, LEARN_MORE_BUTTON_TEXT} from "../../helpers/testData.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -290,16 +290,16 @@ test.describe('productListPage.spec.spec', () => {
 
 	test('TC 03.01.34 Verify that the filtering is cleared after clicking on the “Скинути” button', async ({ page }) => {
 		const homePage = new HomePage(page);
-  
+
 		await homePage.checkBrazilCountryItemCheckbox();
-  
+
 		let isChecked = await homePage.locators.getBrazilCountryItemCheckbox().isChecked();
 		expect(isChecked).toBe(true);
-  
+
 		await homePage.clickSkunytuButton();
 		isChecked = await homePage.locators.getBrazilCountryItemCheckbox().isChecked(); // Обновляем значение isChecked
 		expect(isChecked).not.toBe(true);
-  
+
   });
 
   test('TC 03.01.35 Verify that the product list page contains a block of content', async ({ page }) => {
@@ -395,7 +395,7 @@ test('TC 03.01.40.2 Verify that the filtering is cleared after clicking on the c
 	await homePage.clickZastosuvatuButton();
 	await homePage.clickBrazilCountryChips();
 
-   //Проверяем что чипсы "Бразилия" нет (исчезла после нажатия на крестик на ней)
+   //Проверяем что чипсы "Бразилия" нет (исчезла после нажатия на чипсу)
 	await expect(homePage.locators.getBrazilCountryChips()).not.toBeVisible();
 
 	//Проверяем что чекбокс страны "Бразилия" не чекнут
@@ -406,6 +406,139 @@ test('TC 03.01.40.2 Verify that the filtering is cleared after clicking on the c
 	const applyButton = await homePage.locators.getZastosuvatuButton();
 	expect(await applyButton.isVisible()).toBe(true);
 	expect(await applyButton.textContent()).not.toContain('(1)');
+
+});
+
+test('TC 03.01.6 Verify that the filtration block contains a dropdown "Виробник"', async ({ page }) => {
+	const homePage = new HomePage(page);
+	await expect(homePage.locators.getManufacturerDropdown()).toBeVisible();
+});
+
+test('TC 03.01.7 "Виробник" dropdown contains a list of manufacturers', async ({ page }) => {
+	const homePage = new HomePage(page);
+	await expect(homePage.locators.getManufacturerDropdown()).toBeVisible();
+	for(const list of MANUFACTURERS_LIST) {
+		await expect(homePage.locators.getManufacturerSectionList()).toContainText(list);
+
+	}
+
+});
+
+test('TC 03.01.8 Verify that the "Виробник" dropdown contains checkboxes', async ({ page }) => {
+	const homePage = new HomePage(page);
+	await expect(homePage.locators.getManufacturerDropdown()).toBeVisible();
+	await expect(homePage.locators.getManufacturerSectionList()).toBeVisible();
+	for(const box of MANUFACTURERS_LIST) {
+		await expect(homePage.locators.getManufactureSectionChekbox(box)).toBeTruthy();
+
+		console.log(box)
+	}
+});
+
+test('TC 03.01.9 Verify that the user can select the manufacturer by clicking on the checkbox', async ({ page }) => {
+	const homePage = new HomePage(page);
+	await homePage.checkManufactureSectionChekboxBoschCheckbox();
+	await expect(homePage.locators.getManufactureSectionChekboxBoschCheckbox()).toBeChecked();
+	await expect(homePage.locators.getManufactureSectionChekboxBoschCheckbox()).toBeVisible();
+
+});
+
+test('TC 03.01.10 Verify that the dropdown "Виробник" contains the search field "Введіть виробника"', async ({ page }) => {
+	const homePage = new HomePage(page);
+	await expect(homePage.locators.getManufacturerSectionSearchField()).toBeTruthy();
+	await expect(homePage.locators.getManufacturerSectionSearchFieldPlaceholder()).toBeTruthy();
+
+});
+
+test('TC 03.01.41 Verify that the "x Очистити" button is present', async ({ page }) => {
+	const homePage = new HomePage(page);
+
+	await homePage.checkBrazilCountryItemCheckbox();
+	await homePage.clickZastosuvatuButton();
+
+	await expect(homePage.locators.getXOchustutuButton()).toBeVisible();
+	await expect(homePage.locators.getXOchustutuButton()).toHaveText(X_OCHUSTUTU_BUTTON_TEXT);
+
+});
+
+test('TC 03.01.42 Verify that the "x Очистити" button has a pointer cursor', async ({ page }) => {
+	const homePage = new HomePage(page);
+
+	await homePage.checkBrazilCountryItemCheckbox();
+	await homePage.clickZastosuvatuButton();
+
+	await expect(homePage.locators.getXOchustutuButton()).toBeVisible();
+	await expect(homePage.locators.getBrazilCountryChips()).toHaveCSS('cursor', 'pointer');
+
+});
+
+test('TC 03.01.42.1 Verify that the "x Очистити" button has a close (cross) icon on them', async ({ page }) => {
+	const homePage = new HomePage(page);
+
+	await homePage.checkBrazilCountryItemCheckbox();
+	await homePage.clickZastosuvatuButton();
+
+	await expect(homePage.locators.getXOchustutuButton()).toBeVisible();
+	await expect(homePage.locators.getXOchustutuButtonCrossIcon()).toBeVisible();
+
+});
+
+test('TC 03.01.42.2 Verify that the filtering is cleared after clicking on the cross icon on the " x Очистити" button', async ({ page }) => {
+	const homePage = new HomePage(page);
+
+	await homePage.checkBrazilCountryItemCheckbox();
+	await homePage.clickZastosuvatuButton();
+	await homePage.clickXOchustutuButtonCrossIcon();
+
+   //Проверяем что кнопки "x Очистити" нет (исчезла после нажатия на крестик на ней)
+	await expect(homePage.locators.getXOchustutuButton()).not.toBeVisible();
+
+	//Проверяем что чекбокс страны "Бразилия" не чекнут
+	const isChecked = await homePage.locators.getBrazilCountryItemCheckbox().isChecked();
+	expect(isChecked).not.toBe(true);
+
+	//Проверяем что кнопка "Застосувати" не содержит текст "1" (количество товаров)
+	const applyButton = await homePage.locators.getZastosuvatuButton();
+	expect(await applyButton.isVisible()).toBe(true);
+	expect(await applyButton.textContent()).not.toContain('(1)');
+
+});
+
+test('TC 03.01.42.3 Verify that the filtering is cleared after clicking on the " x Очистити" button', async ({ page }) => {
+	const homePage = new HomePage(page);
+
+	await homePage.checkBrazilCountryItemCheckbox();
+	await homePage.clickZastosuvatuButton();
+	await homePage.clickXOchustutuButton();
+
+   //Проверяем что кнопки "x Очистити" нет (исчезла после нажатия по ней)
+	await expect(homePage.locators.getXOchustutuButton()).not.toBeVisible();
+
+	//Проверяем что чекбокс страны "Бразилия" не чекнут
+	const isChecked = await homePage.locators.getBrazilCountryItemCheckbox().isChecked();
+	expect(isChecked).not.toBe(true);
+
+	//Проверяем что кнопка "Застосувати" не содержит текст "1" (количество товаров)
+	const applyButton = await homePage.locators.getZastosuvatuButton();
+	expect(await applyButton.isVisible()).toBe(true);
+	expect(await applyButton.textContent()).not.toContain('(1)');
+
+});
+
+test('TC 03.01.55 Verify that the "Не знайшли потрібний товар" product card contains the “Дізнатися більше” button', async ({ page }) => {
+	const homePage = new HomePage(page);
+
+	expect(homePage.locators.getLearnMoreButton()).toBeTruthy();
+	await expect(homePage.locators.getLearnMoreButton()).toBeVisible();
+	await expect(homePage.locators.getLearnMoreButton()).toHaveText(LEARN_MORE_BUTTON_TEXT);
+
+});
+
+test('TC 03.01.56 Verify that the “Дізнатися більше” button has a pointer cursor', async ({ page }) => {
+	const homePage = new HomePage(page);
+
+	await expect(homePage.locators.getLearnMoreButton()).toBeVisible();
+	await expect(homePage.locators.getLearnMoreButton()).toHaveCSS('cursor', 'pointer');
 
 });
 
