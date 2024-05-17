@@ -19,6 +19,34 @@ class DoYouWantSomethingSpecialDialogBoxPage {
 	await this.locators.getCloseButton().click()
 }
 
+async clickPhoneField() {
+	await this.locators.getPhoneField().click();
+}
+
+async typePhoneField() {
+	await this.locators.getPhoneField().type('0662161612');
+}
+
+async typePhoneFieldLetterA() {
+	await this.locators.getPhoneField().type('a');
+}
+
+async clickCommentField() {
+	await this.locators.getCommentField().click();
+}
+
+async typeCommentField() {
+	await this.locators.getCommentField().type('Запчастюлька - это самый лучший интернет-магазин на свете!');
+}
+
+async clickSendButton() {
+	await this.locators.getSendButton().click();
+}
+
+async typeCommentFieldLess10characters() {
+	await this.locators.getCommentField().type('Запчас');
+}
+
 }
 
 export default DoYouWantSomethingSpecialDialogBoxPage;
