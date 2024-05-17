@@ -8,6 +8,7 @@ import BearingsPage from "./bearingsPage";
 import OtherProductsPage from "./otherProductsPage";
 import TiresAndTubesPage from "./tiresAndTubesPage";
 import DoYouWantSomethingSpecialDialogBoxPage from "./doYouWantSomethingSpecialDialogBoxPage";
+import MiniTransporterHECHT2636Page from "./miniTransporterHECHT2636";
 
 class HomePage {
 	constructor(page) {
@@ -105,9 +106,15 @@ class HomePage {
 		getMessageManufacturerSectionSearchField: () => this.page.getByText('По вашому запиту нічого не знайдено. Уточніть свій запит'),
 		getDeleteDataManufacturerSectionSearch: () => this.page.locator('.relative > .absolute').first(),
 		getScrollManufacturerSectionList: () => this.page.locator('#style-scroll:first-child'),
-		getTheOrderIsSuccessfulWindow: () => this.page.getByText('Замовлення успішне!Очікуйте дзвінка нашого менеджера протягом 5')
-
-
+		getTheOrderIsSuccessfulWindow: () => this.page.getByText('Замовлення успішне!Очікуйте дзвінка нашого менеджера протягом 5'),
+		getTheOrderIsSuccessfulWindow: () => this.page.getByText('Замовлення успішне!Очікуйте дзвінка нашого менеджера протягом 5'),
+		getSortDropdown: () => this.page.getByText('Сортувати:Оберіть значення'),
+		getSortDropdownFromCheapToexpensive: () => this.page.getByText('Від дешевих до дорогих'),
+		getSortDropdownFromExpensiveToCheap: () => this.page.getByText('Від дорогих до дешевих'),
+		getProductCardLocator: () => this.page.getByRole('link', { name: 'Міні транспортер HECHT 2636' }),
+		getPagination: () => this.page.locator('div').filter({ hasText: /^123456789$/ }).nth(2),
+		getPaginationNextPageButton: () => this.page.getByLabel('Go to next page'),
+		getPaginationPreviousPageButton: () => this.page.locator('.MuiPagination-ul > li').first()
 	};
 
 	async open() {
@@ -317,6 +324,32 @@ class HomePage {
 	async clickDeleteDataManufacturerSectionSearch() {
 		await this.locators.getDeleteDataManufacturerSectionSearch().click();
 	}
+
+	async clickSortDropdown() {
+		await this.locators.getSortDropdown().click();
+	}
+
+	async clickSortDropdownFromCheapToexpensive() {
+		await this.locators.getSortDropdownFromCheapToexpensive().click();
+	}
+
+	async clickSortDropdownFromExpensiveToCheap() {
+		await this.locators.getSortDropdownFromExpensiveToCheap().click();
+	}
+
+	async clickProductCardLocator() {
+		await this.locators.getProductCardLocator().click();
+		return new MiniTransporterHECHT2636Page(this.page);
+	}
+
+	async clickPaginationNextPageButton() {
+		await this.locators.getPaginationNextPageButton().click();
+	}
+
+	async clickPaginationPreviousPageButton() {
+		await this.locators.getPaginationPreviousPageButton().click();
+	}
+
 }
 
 export default HomePage;

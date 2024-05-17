@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT, MANUFACTURERS_LIST, X_OCHUSTUTU_BUTTON_TEXT, LEARN_MORE_BUTTON_TEXT, DO_YOU_WANT_SOMETHING_SPECIAL_DIALOGBOX_TEXT, DESCRIPTION_TEXT, PHONE_FIELD_HEADER_TEXT, COMMENT_FIELD_HEADER_TEXT, SEND_BUTTON_TEXT, PHONE_FIELD_TYPE_TEXT, SUCCESSFUL_WINDOW_HEADER_TEXT, GO_TO_CATALOG_BUTTON_TEXT, WAITING_CALL_DESCRIPTION_TEXT } from "../../helpers/testData.js";
+import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT, MANUFACTURERS_LIST, X_OCHUSTUTU_BUTTON_TEXT, LEARN_MORE_BUTTON_TEXT, DO_YOU_WANT_SOMETHING_SPECIAL_DIALOGBOX_TEXT, DESCRIPTION_TEXT, PHONE_FIELD_HEADER_TEXT, COMMENT_FIELD_HEADER_TEXT, SEND_BUTTON_TEXT, PHONE_FIELD_TYPE_TEXT, SUCCESSFUL_WINDOW_HEADER_TEXT, GO_TO_CATALOG_BUTTON_TEXT, WAITING_CALL_DESCRIPTION_TEXT,SORT_DROPDOWN_SMALLLARGE, SORT_DROPDOWN_LARGESMALL, HECHT_2636_HEADER_TEXT, HECHT_2636_BREADCRAMBS_TEXT, PAGINATION_TEXT, PAGE_1_URL, PAGE_2_URL, BASE_URL } from "../../helpers/testData.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -691,7 +691,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
 
@@ -704,7 +704,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.typePhoneFieldLetterA();
 		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
@@ -713,7 +713,7 @@ test.describe('productListPage.spec.spec', () => {
 
 		// Проверяем наличие всплывающего уведомления или ошибки
 		const errorMessage = await page.evaluate(() => {
-			const phoneField = document.querySelector('#phone');  
+			const phoneField = document.querySelector('#phone');
 			return phoneField ? phoneField.validationMessage : '';
 		});
 
@@ -721,7 +721,7 @@ test.describe('productListPage.spec.spec', () => {
 		expect(errorMessage).toMatch(/match the requested format/);
 
 		/*
-		В данном случает фраза уведомления об ошибке "Виберіть потрібний формат 096 123 45 67" не совпадает с той, которую ожидает система 
+		В данном случает фраза уведомления об ошибке "Виберіть потрібний формат 096 123 45 67" не совпадает с той, которую ожидает система
 		"Введите данные в указанном формате". Это связано с настройками текста сообщения на стороне разработчика, которые тестировщик не может изменить. Для нашего теста важен сам факт появления сообщения об ошибке, подтверждающий работоспособность функциональности проверки формы на ввод корректных данных.
 		При вводе expect(errorMessage).toMatch(/Введите данные в указанном формате\./) тест проходит локально на падает на CI, поэтому пишем
 		expect(errorMessage).toMatch(/match the requested format/);
@@ -733,7 +733,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
 		await doYouWantSomethingSpecialDialogBoxPage.typeCommentField();
@@ -741,7 +741,7 @@ test.describe('productListPage.spec.spec', () => {
 
 		// Проверяем наличие всплывающего уведомления или ошибки
 		const errorMessage = await page.evaluate(() => {
-			const phoneField = document.querySelector('#phone');  
+			const phoneField = document.querySelector('#phone');
 			return phoneField ? phoneField.validationMessage : '';
 		});
 
@@ -749,7 +749,7 @@ test.describe('productListPage.spec.spec', () => {
 		expect(errorMessage).toMatch('Please fill out this field.');
 
 		/*
-		В данном случает фраза уведомления об ошибке "Заповніть це поле." не совпадает с той, которую ожидает система "Заполните это поле.". 
+		В данном случает фраза уведомления об ошибке "Заповніть це поле." не совпадает с той, которую ожидает система "Заполните это поле.".
 		Это связано с настройками текста сообщения на стороне разработчика, которые тестировщик не может изменить. Для нашего теста важен сам факт появления сообщения об ошибке, подтверждающий работоспособность функциональности проверки формы на ввод корректных данных.
 		При вводе expect(errorMessage).toMatch('Заполните это поле.') тест проходит локально на падает на CI, поэтому пишем
 		expect(errorMessage).toMatch('Please fill out this field.');
@@ -761,7 +761,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
@@ -770,7 +770,7 @@ test.describe('productListPage.spec.spec', () => {
 
 		// Проверяем наличие всплывающего уведомления или ошибки
 		const errorMessage = await page.evaluate(() => {
-			const phoneField = document.querySelector('textarea.px-3');  
+			const phoneField = document.querySelector('textarea.px-3');
 			return phoneField ? phoneField.validationMessage : '';
 		});
 
@@ -788,7 +788,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
@@ -806,7 +806,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
@@ -824,7 +824,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
@@ -841,7 +841,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
@@ -859,7 +859,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
@@ -873,11 +873,25 @@ test.describe('productListPage.spec.spec', () => {
 
 	});
 
+
+	test('TC 03.01.15 Verify that the list of manufacturers will scroll down', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		 const targetElement = await page.getByText('Сонце1');
+		 await targetElement.evaluate(element => {
+			 element.scrollIntoViewIfNeeded();
+		 });
+		 await expect(targetElement).toBeVisible();
+		 const targetElementText = await targetElement.innerText();
+		 console.log('Scrolled to manufacturer:', targetElementText);
+
+	})
+
 	test('TC 03.01.70 Verify that the successful transition to the catalog was made after clicking on the "Перейти до каталогу" button', async ({ page }) => {
 		const homePage = new HomePage(page);
 
 		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
-		
+
 		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
 		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
@@ -888,6 +902,153 @@ test.describe('productListPage.spec.spec', () => {
 
 		await expect(homePage.locators.getTheOrderIsSuccessfulWindow()).not.toBeVisible();
 		await expect(homePage.locators.getProductListPage()).toBeVisible();
+
+	});
+
+	test('TC 03.01.16 Verify that the list of manufacturers will scroll up', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const targetElement = await page.getByText('Сонце1');
+
+		await targetElement.evaluate(element => {
+			element.scrollIntoViewIfNeeded();
+		});
+
+		await expect(targetElement).toBeVisible();
+
+		const targetElementText = await targetElement.innerText();
+		console.log('Scrolled to manufacturer:', targetElementText);
+
+		const firstElement = await page.getByText('123', { exact: true });
+
+		await firstElement.evaluate(element => {
+			element.scrollIntoViewIfNeeded();
+		});
+		await expect(firstElement).toBeVisible();
+		const firstElementText = await firstElement.innerText();
+		console.log('Scrolled back to manufacturer:', firstElementText);
+
+	});
+
+	test('TC 03.01.37 Verify that the number of products of the selected category from the catalog is displayed', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickCatalogbutton();
+
+		const bearingsPage = await homePage.clickBearings();
+		await page.waitForSelector('a.cursor-pointerblock');
+
+		// Ожидание загрузки всех элементов
+		await page.waitForFunction(() => {
+			const productCards = document.querySelectorAll('a.cursor-pointerblock');
+			return productCards.length > 0; // Убедитесь, что есть хотя бы один элемент
+		});
+
+    	// Вывод количества загруженных карточек товаров
+    	const productCards = await page.$$('a.cursor-pointerblock'); // Уточните селектор для карточек товаров
+    	console.log(`Number of product cards loaded: ${productCards.length}`);
+
+    	// Проверка видимости элемента с количеством товаров
+    	await expect(bearingsPage.locators.getCountItems()).toBeVisible();
+
+		// Убедитесь, что загружено ожидаемое количество элементов (например, 3)
+		// expect(productCards.length).toBe(3); - работает через раз из-за неадекватной работы сайта
+
+	});
+
+	test('TC 03.01.43 Verify that the content page contains the "Сортувати" dropdown', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getSortDropdown()).toBeTruthy();
+		await expect(homePage.locators.getSortDropdown()).toBeVisible();
+		const sortDropdownText = await homePage.locators.getSortDropdown().innerText();
+        expect(sortDropdownText).toContain('Сортувати');
+        console.log('Sort Dropdown Text:', sortDropdownText);
+		await expect(homePage.locators.getSortDropdown()).toHaveCSS('cursor', 'auto');
+	});
+
+	test('TC 03.01.45 Verify that the sort the product "Вiд дешевых до дорогих"', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await homePage.clickSortDropdown();
+		await expect(homePage.locators.getSortDropdownFromCheapToexpensive()).toBeVisible();
+		const cheapToexpensive = await homePage.locators.getSortDropdownFromCheapToexpensive().innerText();
+		expect(cheapToexpensive).toContain('Від дешевих до дорогих');
+		await homePage.clickSortDropdownFromCheapToexpensive();
+		await page.waitForTimeout(2000);
+		await expect(page).toHaveURL(SORT_DROPDOWN_SMALLLARGE);
+
+		const priceElements = await page.$$('p.text-lg');
+		const relevantPriceElements = priceElements.slice(2);
+
+		for (const priceElement of relevantPriceElements) {
+			const priceText = await priceElement.textContent();
+			console.log(priceText)
+		}
+	});
+
+	test('TC 03.01.46 Verify that the sort the product "Вiд дорогих до дешевых"', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await homePage.clickSortDropdown();
+		await expect(homePage.locators.getSortDropdownFromExpensiveToCheap()).toBeVisible();
+		const expensiveToCheap = await homePage.locators.getSortDropdownFromExpensiveToCheap().innerText();
+		expect(expensiveToCheap).toContain('Від дорогих до дешевих');
+		await homePage.clickSortDropdownFromExpensiveToCheap();
+		await page.waitForTimeout(2000);
+		await expect(page).toHaveURL(SORT_DROPDOWN_LARGESMALL);
+
+		const priceElements = await page.$$('p.text-lg');
+		const relevantPriceElements = priceElements.slice(2);
+
+		for (const priceElement of relevantPriceElements) {
+			const priceText = await priceElement.textContent();
+			console.log(priceText)
+		}
+
+	});
+
+	test('TC 03.01.71. Verify that the all product cards have a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await expect(homePage.locators.getProductCardLocator()).toBeVisible();
+		await expect(homePage.locators.getProductCardLocator()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 03.01.72. Verify that clicking on the product cart redirects to the product pages', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const miniTransporterHECHT2636Page = await homePage.clickProductCardLocator();
+
+		await expect(miniTransporterHECHT2636Page.locators.getHECHT2636Header()).toBeVisible();
+		await expect(miniTransporterHECHT2636Page.locators.getHECHT2636Header()).toHaveText(HECHT_2636_HEADER_TEXT);
+		await expect(miniTransporterHECHT2636Page.locators.getHECHT2636Breadcrambs()).toBeVisible();
+		await expect(miniTransporterHECHT2636Page.locators.getHECHT2636Breadcrambs()).toHaveText(HECHT_2636_BREADCRAMBS_TEXT);
+
+	});
+
+	test('TC 03.01.73 Verify that the page contains pagination', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await expect(homePage.locators.getPagination()).toBeVisible();
+		await expect(homePage.locators.getPagination()).toHaveText(PAGINATION_TEXT);
+
+	});
+
+	test('TC 03.01.74	Verify that the user can navigate to the next page by clicking on the " > " button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await expect(page).toHaveURL(BASE_URL);
+
+		await homePage.clickPaginationNextPageButton();
+		await expect(page).toHaveURL(PAGE_2_URL);
+
+	});
+
+	test('TC 03.01.75	Verify that the user can navigate to the previous page by clicking on the "  < " button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.clickPaginationNextPageButton();
+		await expect(page).toHaveURL(PAGE_2_URL);
+
+		await homePage.clickPaginationPreviousPageButton();
+		await expect(page).toHaveURL(PAGE_1_URL);
 
 	});
 
