@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT, MANUFACTURERS_LIST, X_OCHUSTUTU_BUTTON_TEXT, LEARN_MORE_BUTTON_TEXT, DO_YOU_WANT_SOMETHING_SPECIAL_DIALOGBOX_TEXT, DESCRIPTION_TEXT, PHONE_FIELD_HEADER_TEXT, COMMENT_FIELD_HEADER_TEXT, SEND_BUTTON_TEXT, PHONE_FIELD_TYPE_TEXT } from "../../helpers/testData.js";
+import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT, MANUFACTURERS_LIST, X_OCHUSTUTU_BUTTON_TEXT, LEARN_MORE_BUTTON_TEXT, DO_YOU_WANT_SOMETHING_SPECIAL_DIALOGBOX_TEXT, DESCRIPTION_TEXT, PHONE_FIELD_HEADER_TEXT, COMMENT_FIELD_HEADER_TEXT, SEND_BUTTON_TEXT, PHONE_FIELD_TYPE_TEXT, SUCCESSFUL_WINDOW_HEADER_TEXT, GO_TO_CATALOG_BUTTON_TEXT, WAITING_CALL_DESCRIPTION_TEXT } from "../../helpers/testData.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -784,5 +784,111 @@ test.describe('productListPage.spec.spec', () => {
 
 	});
 
+	test('TC 03.01.67 Verify that the "Замовлення успішне!" modal window opens after clicking on the "Вiдправити" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
+		
+		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
+		await doYouWantSomethingSpecialDialogBoxPage.typeCommentField();
+
+		const theOrderIsSuccessfulWindowPage = await doYouWantSomethingSpecialDialogBoxPage.clickSendButton();
+
+		await expect(homePage.locators.getTheOrderIsSuccessfulWindow()).toBeVisible();
+		await expect(theOrderIsSuccessfulWindowPage.locators.getSuccessfulWindowHeader()).toBeVisible();
+		await expect(theOrderIsSuccessfulWindowPage.locators.getSuccessfulWindowHeader()).toHaveText(SUCCESSFUL_WINDOW_HEADER_TEXT);
+
+	});
+
+	test('TC 03.01.68 Verify that the "Замовлення успішне!" modal window contains the "Перейти до каталогу" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
+		
+		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
+		await doYouWantSomethingSpecialDialogBoxPage.typeCommentField();
+
+		const theOrderIsSuccessfulWindowPage = await doYouWantSomethingSpecialDialogBoxPage.clickSendButton();
+
+		await expect(homePage.locators.getTheOrderIsSuccessfulWindow()).toBeVisible();
+		await expect(theOrderIsSuccessfulWindowPage.locators.getGoToCatalogButton()).toBeVisible();
+		await expect(theOrderIsSuccessfulWindowPage.locators.getGoToCatalogButton()).toHaveText(GO_TO_CATALOG_BUTTON_TEXT);
+
+	});
+
+	test('TC 03.01.68.1 Verify that the "Замовлення успішне!" modal window contains the icon', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
+		
+		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
+		await doYouWantSomethingSpecialDialogBoxPage.typeCommentField();
+
+		const theOrderIsSuccessfulWindowPage = await doYouWantSomethingSpecialDialogBoxPage.clickSendButton();
+
+		await expect(homePage.locators.getTheOrderIsSuccessfulWindow()).toBeVisible();
+		await expect(theOrderIsSuccessfulWindowPage.locators.getSuccessfulWindowIcon()).toBeVisible();
+
+	});
+
+	test('TC 03.01.68.2 Verify that the "Замовлення успішне!" modal window contains the "Очікуйте дзвінка нашого менеджера протягом 5 хвилин" description', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
+		
+		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
+		await doYouWantSomethingSpecialDialogBoxPage.typeCommentField();
+
+		const theOrderIsSuccessfulWindowPage = await doYouWantSomethingSpecialDialogBoxPage.clickSendButton();
+
+		await expect(homePage.locators.getTheOrderIsSuccessfulWindow()).toBeVisible();
+		await expect(theOrderIsSuccessfulWindowPage.locators.getWatingCallDescription()).toBeVisible();
+		await expect(theOrderIsSuccessfulWindowPage.locators.getWatingCallDescription()).toHaveText(WAITING_CALL_DESCRIPTION_TEXT);
+
+	});
+
+	test('TC 03.01.69 Verify that the "Перейти до каталогу" button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
+		
+		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
+		await doYouWantSomethingSpecialDialogBoxPage.typeCommentField();
+
+		const theOrderIsSuccessfulWindowPage = await doYouWantSomethingSpecialDialogBoxPage.clickSendButton();
+
+		await expect(homePage.locators.getTheOrderIsSuccessfulWindow()).toBeVisible();
+		await expect(theOrderIsSuccessfulWindowPage.locators.getGoToCatalogButton()).toBeVisible();
+		await expect(theOrderIsSuccessfulWindowPage.locators.getGoToCatalogButton()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 03.01.70 Verify that the successful transition to the catalog was made after clicking on the "Перейти до каталогу" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const doYouWantSomethingSpecialDialogBoxPage = await homePage.clickLearnMoreButton();
+		
+		await doYouWantSomethingSpecialDialogBoxPage.clickPhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.typePhoneField();
+		await doYouWantSomethingSpecialDialogBoxPage.clickCommentField();
+		await doYouWantSomethingSpecialDialogBoxPage.typeCommentField();
+
+		const theOrderIsSuccessfulWindowPage = await doYouWantSomethingSpecialDialogBoxPage.clickSendButton();
+		await theOrderIsSuccessfulWindowPage.clickGoToCatalogButton();
+
+		await expect(homePage.locators.getTheOrderIsSuccessfulWindow()).not.toBeVisible();
+		await expect(homePage.locators.getProductListPage()).toBeVisible();
+
+	});
 
 })
