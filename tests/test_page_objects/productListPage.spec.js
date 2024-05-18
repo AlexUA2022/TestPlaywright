@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT, MANUFACTURERS_LIST, X_OCHUSTUTU_BUTTON_TEXT, LEARN_MORE_BUTTON_TEXT, DO_YOU_WANT_SOMETHING_SPECIAL_DIALOGBOX_TEXT, DESCRIPTION_TEXT, PHONE_FIELD_HEADER_TEXT, COMMENT_FIELD_HEADER_TEXT, SEND_BUTTON_TEXT, PHONE_FIELD_TYPE_TEXT, SUCCESSFUL_WINDOW_HEADER_TEXT, GO_TO_CATALOG_BUTTON_TEXT, WAITING_CALL_DESCRIPTION_TEXT,SORT_DROPDOWN_SMALLLARGE, SORT_DROPDOWN_LARGESMALL, HECHT_2636_HEADER_TEXT, HECHT_2636_BREADCRAMBS_TEXT, PAGINATION_TEXT, PAGE_1_URL, PAGE_2_URL, BASE_URL } from "../../helpers/testData.js";
+import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT, MANUFACTURERS_LIST, X_OCHUSTUTU_BUTTON_TEXT, LEARN_MORE_BUTTON_TEXT, DO_YOU_WANT_SOMETHING_SPECIAL_DIALOGBOX_TEXT, DESCRIPTION_TEXT, PHONE_FIELD_HEADER_TEXT, COMMENT_FIELD_HEADER_TEXT, SEND_BUTTON_TEXT, PHONE_FIELD_TYPE_TEXT, SUCCESSFUL_WINDOW_HEADER_TEXT, GO_TO_CATALOG_BUTTON_TEXT, WAITING_CALL_DESCRIPTION_TEXT, SORT_DROPDOWN_SMALLLARGE, SORT_DROPDOWN_LARGESMALL, HECHT_2636_HEADER_TEXT, HECHT_2636_BREADCRAMBS_TEXT, PAGINATION_TEXT, PAGE_1_URL, PAGE_2_URL, BASE_URL } from "../../helpers/testData.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -74,7 +74,7 @@ test.describe('productListPage.spec.spec', () => {
 
 	});
 
-	test('TC 03.01.21 Verify that the “Країна” dropdown contains the list of countries', async ({ page }) => {
+	test('TC 03.01.24 Verify that the “Країна” dropdown contains the list of countries', async ({ page }) => {
 		const homePage = new HomePage(page);
 
 		for (const item of СOUNTRY_LIST) {
@@ -678,7 +678,7 @@ test.describe('productListPage.spec.spec', () => {
 		const homePage = new HomePage(page);
 		await homePage.clickManufacturerSectionSearchFieldPlaceholder();
 		await homePage.fillSpecialCharactersManufacturerSectionSearchFieldPlaceholder();
-        await homePage.clickDeleteDataManufacturerSectionSearch();
+		await homePage.clickDeleteDataManufacturerSectionSearch();
 		await expect(homePage.locators.getManufacturerSectionSearchField()).toBeTruthy();
 	});
 
@@ -877,13 +877,13 @@ test.describe('productListPage.spec.spec', () => {
 	test('TC 03.01.15 Verify that the list of manufacturers will scroll down', async ({ page }) => {
 		const homePage = new HomePage(page);
 
-		 const targetElement = await page.getByText('Сонце1');
-		 await targetElement.evaluate(element => {
-			 element.scrollIntoViewIfNeeded();
-		 });
-		 await expect(targetElement).toBeVisible();
-		 const targetElementText = await targetElement.innerText();
-		 console.log('Scrolled to manufacturer:', targetElementText);
+		const targetElement = await page.getByText('Сонце1');
+		await targetElement.evaluate(element => {
+			element.scrollIntoViewIfNeeded();
+		});
+		await expect(targetElement).toBeVisible();
+		const targetElementText = await targetElement.innerText();
+		console.log('Scrolled to manufacturer:', targetElementText);
 
 	})
 
@@ -943,12 +943,12 @@ test.describe('productListPage.spec.spec', () => {
 			return productCards.length > 0; // Убедитесь, что есть хотя бы один элемент
 		});
 
-    	// Вывод количества загруженных карточек товаров
-    	const productCards = await page.$$('a.cursor-pointerblock'); // Уточните селектор для карточек товаров
-    	console.log(`Number of product cards loaded: ${productCards.length}`);
+		// Вывод количества загруженных карточек товаров
+		const productCards = await page.$$('a.cursor-pointerblock'); // Уточните селектор для карточек товаров
+		console.log(`Number of product cards loaded: ${productCards.length}`);
 
-    	// Проверка видимости элемента с количеством товаров
-    	await expect(bearingsPage.locators.getCountItems()).toBeVisible();
+		// Проверка видимости элемента с количеством товаров
+		await expect(bearingsPage.locators.getCountItems()).toBeVisible();
 
 		// Убедитесь, что загружено ожидаемое количество элементов (например, 3)
 		// expect(productCards.length).toBe(3); - работает через раз из-за неадекватной работы сайта
@@ -960,8 +960,8 @@ test.describe('productListPage.spec.spec', () => {
 		await expect(homePage.locators.getSortDropdown()).toBeTruthy();
 		await expect(homePage.locators.getSortDropdown()).toBeVisible();
 		const sortDropdownText = await homePage.locators.getSortDropdown().innerText();
-        expect(sortDropdownText).toContain('Сортувати');
-        console.log('Sort Dropdown Text:', sortDropdownText);
+		expect(sortDropdownText).toContain('Сортувати');
+		console.log('Sort Dropdown Text:', sortDropdownText);
 		await expect(homePage.locators.getSortDropdown()).toHaveCSS('cursor', 'auto');
 	});
 
@@ -1051,5 +1051,81 @@ test.describe('productListPage.spec.spec', () => {
 		await expect(page).toHaveURL(PAGE_1_URL);
 
 	});
+
+	test('TC 03.01.48 Verify that the product card contains a photo of the product', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getProductCard()).toBeTruthy();
+		await expect(homePage.locators.getProductCard()).toBeVisible();
+
+		const productImage = await page.$('.product-card-img');
+
+		await expect(productImage).toBeTruthy();
+
+		console.log('Product image is present and visible');
+
+	});
+
+	test('TC 03.01.50 Verify that the product card contains the item number', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getProductCard()).toBeTruthy();
+
+		const productItemLocator = page.locator('.mb-1');
+		await expect(productItemLocator).toBeTruthy();
+
+	});
+
+	test('TC 03.01.51 Verify that the product card contains the cost of the product', async ({ page}) => {
+
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getProductCard()).toBeTruthy();
+        const costProduct = page.locator('p.text-lg');
+		await expect(costProduct).toBeTruthy();
+
+	});
+
+	test('TC 03.01.52 Verify that the product card contains a button "Додати в кошик"', async ({ page}) => {
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getProductCard()).toBeTruthy();
+		await expect(homePage.locators.getButtonAddToCart()).toBeTruthy();
+		await expect(homePage.locators.getButtonAddToCart()).toBeVisible()
+
+
+	});
+
+	test('TC 03.01.53 Verify that the button "Додати в кошек" contains a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getProductCard()).toBeTruthy();
+		await expect(homePage.locators.getButtonAddToCart()).toBeTruthy();
+		await expect(homePage.locators.getButtonAddToCart()).toBeVisible();
+		await expect(homePage.locators.getButtonAddToCart()).toHaveCSS('cursor', 'pointer');
+		const button = await homePage.locators.getButtonAddToCart().innerText();
+		expect(button).toContain('Додати в кошик');
+		await expect(homePage.locators.getButtonAddToCart()).toHaveCSS('background-color', 'rgb(21, 112, 239)');
+	});
+
+	test('TC 03.01.76 Verify that the page contains the chatbot button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await expect(homePage.locators.getChatbotButton()).toBeVisible();
+	});
+
+	test('TC 03.01.77 Verify that the chatbot has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);	
+
+		await expect(homePage.locators.getChatbotButton()).toBeVisible();
+		await expect(homePage.locators.getProductCardLocator()).toHaveCSS('cursor', 'pointer');
+	});
+
+	test('TC 03.01.78 Verify that the windows with chatbot is opened after clicking on the chatbot button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getChatbotButton()).toBeVisible();
+		
+		await homePage.clickChatbotButton();
+
+		const openedChatbot = await homePage.locators.getOpenedChatbot();
+		await expect(openedChatbot).toBeVisible();
+
+	});
+
 
 })
