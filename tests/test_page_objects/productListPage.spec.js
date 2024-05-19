@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT, MANUFACTURERS_LIST, X_OCHUSTUTU_BUTTON_TEXT, LEARN_MORE_BUTTON_TEXT, DO_YOU_WANT_SOMETHING_SPECIAL_DIALOGBOX_TEXT, DESCRIPTION_TEXT, PHONE_FIELD_HEADER_TEXT, COMMENT_FIELD_HEADER_TEXT, SEND_BUTTON_TEXT, PHONE_FIELD_TYPE_TEXT, SUCCESSFUL_WINDOW_HEADER_TEXT, GO_TO_CATALOG_BUTTON_TEXT, WAITING_CALL_DESCRIPTION_TEXT, SORT_DROPDOWN_SMALLLARGE, SORT_DROPDOWN_LARGESMALL, HECHT_2636_HEADER_TEXT, HECHT_2636_BREADCRAMBS_TEXT, PAGINATION_TEXT, PAGE_1_URL, PAGE_2_URL, BASE_URL } from "../../helpers/testData.js";
+import { FILTER_UNIT_DROPDOWN_KRAYINA_CATEGORY_TEXT, СOUNTRY_LIST, UKRAINE_COUNTRY_ITEM_TEXT, ZASTOSUVATU_BUTTON_TEXT, SKUNYTU_BUTTON_TEXT, FILTER_PRICE_DROPDOWN_TEXT, BEARINGS_URL, HEADER_BEARINGS_TEXT, BEARINGS_ITEM_TEXT, BRAZIL_CHIPS_TEXT, MANUFACTURERS_LIST, X_OCHUSTUTU_BUTTON_TEXT, LEARN_MORE_BUTTON_TEXT, DO_YOU_WANT_SOMETHING_SPECIAL_DIALOGBOX_TEXT, DESCRIPTION_TEXT, PHONE_FIELD_HEADER_TEXT, COMMENT_FIELD_HEADER_TEXT, SEND_BUTTON_TEXT, PHONE_FIELD_TYPE_TEXT, SUCCESSFUL_WINDOW_HEADER_TEXT, GO_TO_CATALOG_BUTTON_TEXT, WAITING_CALL_DESCRIPTION_TEXT, SORT_DROPDOWN_SMALLLARGE, SORT_DROPDOWN_LARGESMALL, HECHT_2636_HEADER_TEXT, HECHT_2636_BREADCRAMBS_TEXT, PAGINATION_TEXT, PAGE_1_URL, PAGE_2_URL, BASE_URL, FILTER_PRICE_RANGE } from "../../helpers/testData.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -1074,16 +1074,16 @@ test.describe('productListPage.spec.spec', () => {
 
 	});
 
-	test('TC 03.01.51 Verify that the product card contains the cost of the product', async ({ page}) => {
+	test('TC 03.01.51 Verify that the product card contains the cost of the product', async ({ page }) => {
 
 		const homePage = new HomePage(page);
 		await expect(homePage.locators.getProductCard()).toBeTruthy();
-        const costProduct = page.locator('p.text-lg');
+		const costProduct = page.locator('p.text-lg');
 		await expect(costProduct).toBeTruthy();
 
 	});
 
-	test('TC 03.01.52 Verify that the product card contains a button "Додати в кошик"', async ({ page}) => {
+	test('TC 03.01.52 Verify that the product card contains a button "Додати в кошик"', async ({ page }) => {
 		const homePage = new HomePage(page);
 		await expect(homePage.locators.getProductCard()).toBeTruthy();
 		await expect(homePage.locators.getButtonAddToCart()).toBeTruthy();
@@ -1110,7 +1110,7 @@ test.describe('productListPage.spec.spec', () => {
 	});
 
 	test('TC 03.01.77 Verify that the chatbot has a pointer cursor', async ({ page }) => {
-		const homePage = new HomePage(page);	
+		const homePage = new HomePage(page);
 
 		await expect(homePage.locators.getChatbotButton()).toBeVisible();
 		await expect(homePage.locators.getProductCardLocator()).toHaveCSS('cursor', 'pointer');
@@ -1119,7 +1119,7 @@ test.describe('productListPage.spec.spec', () => {
 	test('TC 03.01.78 Verify that the windows with chatbot is opened after clicking on the chatbot button', async ({ page }) => {
 		const homePage = new HomePage(page);
 		await expect(homePage.locators.getChatbotButton()).toBeVisible();
-		
+
 		await homePage.clickChatbotButton();
 
 		const openedChatbot = await homePage.locators.getOpenedChatbot();
@@ -1127,5 +1127,28 @@ test.describe('productListPage.spec.spec', () => {
 
 	});
 
+	test('TC03.01.54 Verify that the contains the product card " Не знайшли потрібний товар?"', async ({ page }) => {
+		const homePage = new HomePage(page);
+		await expect(homePage.locators.getCardNecessaryProduct()).toBeVisible();
+		await expect(homePage.locators.getCardNecessaryProduct()).toBeTruthy();
+
+	});
+
+	test('TC 03.01.80 Verify  that the product is sorted in the price range', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		await homePage.fillFilterPriceMinField();
+		await homePage.fillFilterPriceMax();
+		await homePage.clickFilterPriceApplyButton();
+		await page.waitForTimeout(3000);
+		await expect(page).toHaveURL(FILTER_PRICE_RANGE);
+
+		const resultFilter = await page.$$('p.text-lg');
+		const relevantResultFilter = resultFilter.slice(2);
+		for (const resultFilter of relevantResultFilter) {
+			const resultText = await resultFilter.textContent();
+			console.log(resultText)
+		}
+	})
 
 })

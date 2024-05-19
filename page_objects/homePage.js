@@ -9,6 +9,7 @@ import OtherProductsPage from "./otherProductsPage";
 import TiresAndTubesPage from "./tiresAndTubesPage";
 import DoYouWantSomethingSpecialDialogBoxPage from "./doYouWantSomethingSpecialDialogBoxPage";
 import MiniTransporterHECHT2636Page from "./miniTransporterHECHT2636";
+import MobilSuper3000Page from "./mobilSuper3000";
 
 class HomePage {
 	constructor(page) {
@@ -118,7 +119,10 @@ class HomePage {
 		getProductCard: () => this.page.locator('.relative.cards:nth-child(5)'),
 		getButtonAddToCart: () => this.page.locator('.state-button').first(),
 		getChatbotButton: () => this.page.locator('.sticky'),
-		getOpenedChatbot: async () => await this.page.frameLocator('#chatApp').getByRole('banner')
+		getOpenedChatbot: async () => await this.page.frameLocator('#chatApp').getByRole('banner'),
+		getCardNecessaryProduct: () => this.page.locator('li').filter({ hasText: 'Не знайшли потрібний товар?Розкажіть, що ви шукаєте, а ми спробуємо доставити.Ді' }).locator('div').nth(2),
+		getFilterPriceApplyButton: () => this.page.getByRole('button', { name: 'Застосувати (3)' }),
+		getMobilSuper3000: () => this.page.getByRole('link', { name: 'Моторна олива Mobil Super' })
 	};
 
 	async open() {
@@ -356,6 +360,19 @@ class HomePage {
 
 	async clickChatbotButton() {
 		await this.locators.getChatbotButton().click();
+	}
+
+	async fillFilterPriceMax() {
+		await this.locators.getFilterPriceMax().fill('800')
+	}
+
+	async clickFilterPriceApplyButton() {
+		await this.locators.getFilterPriceApplyButton().click();
+	}
+
+	async clickMobilSuper3000() {
+		await this.locators.getMobilSuper3000().click();
+		return new MobilSuper3000Page(this.page);
 	}
 
 }
