@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { PRODUCT_NAME_TEXT } from "../../helpers/testDataProductPage.js";
+import { PRODUCT_NAME_TEXT, PRODUCT_INFORNATION_TEXT, PRODUCT_DESCRIPTION_HEADER_TEXT, PRODUCT_DESCRIPTION_TEXT } from "../../helpers/testDataProductPage.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -75,8 +75,8 @@ test.describe('productListPage.spec.spec', () => {
 
 		const modalWindowProductPageAvailable = await mobilSuper3000Page.clickMagnifyingGlassIcon();
 
-		await expect(modalWindowProductPageAvailable.locators.geProductName()).toBeVisible();
-		await expect(modalWindowProductPageAvailable.locators.geProductName()).toHaveText(PRODUCT_NAME_TEXT);
+		await expect(modalWindowProductPageAvailable.locators.getProductName()).toBeVisible();
+		await expect(modalWindowProductPageAvailable.locators.getProductName()).toHaveText(PRODUCT_NAME_TEXT);
 
 	});
 
@@ -87,7 +87,120 @@ test.describe('productListPage.spec.spec', () => {
 
 		const modalWindowProductPageAvailable = await mobilSuper3000Page.clickMagnifyingGlassIcon();
 
-		await expect(modalWindowProductPageAvailable.locators.geProductImage()).toBeVisible();
+		await expect(modalWindowProductPageAvailable.locators.getProductImage()).toBeVisible();
+
+	});
+
+	test('TC 04.01.8 Verify that the modal window contains the right-scroll button for scrolling images', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowProductPageAvailable = await mobilSuper3000Page.clickMagnifyingGlassIcon();
+
+		await expect(modalWindowProductPageAvailable.locators.getButtonNextSlide()).toBeVisible();
+
+	});
+
+	test('TC 04.01.9 Verify that the modal window contains the left-scroll button for scrolling images', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowProductPageAvailable = await mobilSuper3000Page.clickMagnifyingGlassIcon();
+
+		await expect(modalWindowProductPageAvailable.locators.getButtonPreviousSlide()).toBeVisible();
+
+	});
+
+	test('TC 04.01.10 Verify that the modal window contains close(cross) button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowProductPageAvailable = await mobilSuper3000Page.clickMagnifyingGlassIcon();
+
+		await expect(modalWindowProductPageAvailable.locators.getCloseButton()).toBeVisible();
+
+	});
+
+	test('TC 04.01.10.1 Verify that the close(cross) button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowProductPageAvailable = await mobilSuper3000Page.clickMagnifyingGlassIcon();
+
+		await expect(modalWindowProductPageAvailable.locators.getCloseButton()).toBeVisible();
+		await expect(modalWindowProductPageAvailable.locators.getCloseButton()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 04.01.11 Verify that the right-scroll button for scrolling images has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowProductPageAvailable = await mobilSuper3000Page.clickMagnifyingGlassIcon();
+
+		await expect(modalWindowProductPageAvailable.locators.getCloseButton()).toBeVisible();
+		await expect(modalWindowProductPageAvailable.locators.getButtonNextSlide()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 04.01.11.1 Verify that the left-scroll button for scrolling images has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowProductPageAvailable = await mobilSuper3000Page.clickMagnifyingGlassIcon();
+
+		await expect(modalWindowProductPageAvailable.locators.getCloseButton()).toBeVisible();
+		await expect(modalWindowProductPageAvailable.locators.getButtonPreviousSlide()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 04.01.12 Verify that the modal window close after clicking on the close(cross) button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowProductPageAvailable = await mobilSuper3000Page.clickMagnifyingGlassIcon();
+		await expect(modalWindowProductPageAvailable.locators.getModalWindow()).toBeVisible();
+
+		await modalWindowProductPageAvailable.clickCloseButton();
+
+		await expect(modalWindowProductPageAvailable.locators.getModalWindow()).not.toBeVisible();
+
+	});
+
+	test('TC 04.01.14 Verify that the product page contains a block with the product information', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getProductInformation()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductInformation()).toContainText(PRODUCT_INFORNATION_TEXT);
+
+	});
+
+	test('TC 04.01.14.1 Verify that the product page contains the product description header', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getProductDescriptionHeader()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductDescriptionHeader()).toHaveText(PRODUCT_DESCRIPTION_HEADER_TEXT);
+
+	});
+
+	test('TC 04.01.14.2 Verify that the product page contains a block with the product description', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getProductDescriptionText()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductDescriptionText()).toHaveText(PRODUCT_DESCRIPTION_TEXT);
 
 	});
 
