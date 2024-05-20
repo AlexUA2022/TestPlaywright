@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { PRODUCT_NAME_TEXT, PRODUCT_INFORNATION_TEXT, PRODUCT_DESCRIPTION_HEADER_TEXT, PRODUCT_DESCRIPTION_TEXT } from "../../helpers/testDataProductPage.js";
+import { PRODUCT_NAME_TEXT, PRODUCT_INFORNATION_TEXT, PRODUCT_DESCRIPTION_HEADER_TEXT, PRODUCT_DESCRIPTION_TEXT, PRODUCT_ARTICLE_TEXT, PRODUCT_PRICE_TEXT, PRODUCT_STATUS_TEXT, ADD_TO_CART_BUTTON_TEXT } from "../../helpers/testDataProductPage.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -160,7 +160,7 @@ test.describe('productListPage.spec.spec', () => {
 
 	});
 
-	test('TC 04.01.12 Verify that the modal window close after clicking on the close(cross) button', async ({ page }) => {
+	test('TC 04.01.12 Verify that the modal window closes after clicking on the close(cross) button', async ({ page }) => {
 		const homePage = new HomePage(page);
 
 		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
@@ -204,5 +204,109 @@ test.describe('productListPage.spec.spec', () => {
 
 	});
 
+	test('TC 04.01.15 Verify that the block with the product information contains the product name', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getProductName()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductName()).toHaveText(PRODUCT_NAME_TEXT);
+
+	});
+
+	test('TC 04.01.16 Verify that the block with the product information contains the product article', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getProductArticle()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductArticle()).toHaveText(PRODUCT_ARTICLE_TEXT);
+
+	});
+
+	test('TC 04.01.17 Verify that the block with the product information contains the product price', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getProductPrice()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductPrice()).toHaveText(PRODUCT_PRICE_TEXT);
+
+	});
+
+	test('TC 04.01.18 Verify that the block with the product information contains the product status', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getProductStatus()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductStatus()).toHaveText(PRODUCT_STATUS_TEXT);
+
+	});
+
+	test('TC 04.01.20 Verify that the product page contains the "Додати в кошик" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getAddToCartButton()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getAddToCartButton()).toHaveText(ADD_TO_CART_BUTTON_TEXT);
+
+	});
+
+	test('TC 04.01.21 Verify that the "Додати в кошик" button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getAddToCartButton()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getAddToCartButton()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 04.01.22.1 Verify that the "Додати в кошик" button has a icon (cart)', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getAddToCartButton()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getIconAddToCartButton()).toBeVisible();
+
+	});
+
+	test('TC 04.01.22 Verify that the product is added to the basket and appears in the cart icon after clicking on the "Додати в кошик" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+		await mobilSuper3000Page.clickAddToCartButton();
+
+		await expect(mobilSuper3000Page.locators.getCartIcon()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getCartIcon()).toContainText('1');
+
+	});
+
+	test('TC 04.01.22.1 Verify that appears the "Товар додано до кошика" notification  after clicking on the "Додати в кошик" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+		await mobilSuper3000Page.clickAddToCartButton();
+
+		const popupLocator = page.locator('.w-full.tablet600\\:w-\\[343px\\].desktop1200\\:w-\\[590px\\].rounded-lg.p-xs.tablet1024\\:p-s.flex.gap-1.border.border-borderSuccess.bg-bgSuccessLight');
+		
+		await expect(popupLocator).toBeVisible();
+		await expect(popupLocator).toHaveText('Товар додано до кошика');
+
+	});
+
+	test('TC 04.01.22.2 Verify that appears the  "- 1 +"  product counter after clicking on the "Додати в кошик" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+		await mobilSuper3000Page.clickAddToCartButton();
+
+		await expect(mobilSuper3000Page.locators.getProductCounterAddToCartButton()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductCounterAddToCartButton()).toContainText('1');
+
+	});
 
 })
