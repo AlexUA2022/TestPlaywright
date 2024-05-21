@@ -14,11 +14,31 @@ class MiniTransporterHECHT2636Page {
 		 getFotoMdalWindow: () => this.page.locator('#splide03-slide01').getByRole('img', { name: 'Міні транспортер HECHT' }),
 		 getScrollModalWindowRight: () => this.page.getByLabel('Next slide'),
 		 getScrollModalWindowLeft: () => this.page.getByLabel('Previous slide'),
-		 getcloseButtonModalWindow: () => this.page.locator('#modal-root').getByRole('button').first()
+		 getcloseButtonModalWindow: () => this.page.locator('#modal-root').getByRole('button').first(),
+		 getHECHT2636BlockInformation: () => this.page.locator('.tablet600\\:px-5 > div:nth-child(2)'),
+		 getHECHT2636Article: () => this.page.getByText('Артикул: testProduct28').nth(1),
+		 getPriceHECHT2636: () => this.page.getByText('₴').first(),
+         getDescriptionPriceHECHT2636: () => this.page.getByText('Основні характеристики:Вага (кг):450Код:testProduct28Виробник:HECHTКраїна:Чехія'),
+		 getShortDescriptionHECHT2636: () => this.page.getByRole('heading', { name: 'Опис' }),
+		 getTextShortDescriptionHECHT2636: () => this.page.getByText('За допомогою міні - транспортера Hecht 2636'),
+		 getStatusHECHT2636: () => this.page.getByText('відсутній', { exact: true }),
+		 getHECHT2636ReportAvailabilityButton: () => this.page.getByRole('button', { name: 'Повідомити про наявність' }).first(),
+		 getHECHT2636DialogBox: () => this.page.getByText('Немає в наявностіВведіть адресу своєї пошти, і, як тільки товар з’явиться, Вам п')
+
+
+
  };
 
  async clickHECHT2636ImageBlocmagnifier() {
 	await this.locators.getHECHT2636ImageBlocmagnifier().click();
+ }
+
+ async clickcloseButtonModalWindow() {
+	await this.locators.getcloseButtonModalWindow().click();
+ }
+
+ async clickHECHT2636ReportAvailabilityButton() {
+	await this.locators.getHECHT2636ReportAvailabilityButton().click();
  }
 
 }
