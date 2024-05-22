@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { PRODUCT_NAME_TEXT, PRODUCT_INFORNATION_TEXT, PRODUCT_DESCRIPTION_HEADER_TEXT, PRODUCT_DESCRIPTION_TEXT, PRODUCT_ARTICLE_TEXT, PRODUCT_PRICE_TEXT, PRODUCT_STATUS_TEXT, ADD_TO_CART_BUTTON_TEXT, BUY_TO_ONE_CLICK_BUTTON_TEXT, PHONE_FIELD_HEADER_TEXT, PHONE_FIELD_PLACEHOLDER_TEXT, PHONE_FIELD_TYPE_VALID_DATA } from "../../helpers/testDataProductPage.js";
+import { PRODUCT_NAME_TEXT, PRODUCT_INFORNATION_TEXT, PRODUCT_DESCRIPTION_HEADER_TEXT, PRODUCT_DESCRIPTION_TEXT, PRODUCT_ARTICLE_TEXT, PRODUCT_PRICE_TEXT, PRODUCT_STATUS_TEXT, ADD_TO_CART_BUTTON_TEXT, BUY_TO_ONE_CLICK_BUTTON_TEXT, PHONE_FIELD_HEADER_TEXT, PHONE_FIELD_PLACEHOLDER_TEXT, MODAL_WINDOW_QUICK_ORDERING_HEADER_TEXT, MODAL_WINDOW_QUICK_ORDERING_DESCRIPTION_TEXT, MODAL_WINDOW_QUICK_ORDERING_SEND_BUTTON_TEXT, MODAL_WINDOW_SUCCESSFUL_ORDER_HEADER_TEXT, MODAL_WINDOW_SUCCESSFUL_ORDER_DESCRIPTION_TEXT, MODAL_WINDOW_SUCCESSFUL_ORDER_GO_TO_CATALOG_BUTTON_TEXT, PRODUCT_MAIN_CHARACTERISTICS_TEXT, WEIGHT_TEXT, WEIGHT_VALUE_TEXT, CODE_TEXT, CODE_VALUE_TEXT, MANUFACTURER_TEXT, MANUFACTURER_NAME_TEXT, COUNTRY_TEXT, COUNTRY_NAME_TEXT } from "../../helpers/testDataProductPage.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -454,5 +454,374 @@ test.describe('productListPage.spec.spec', () => {
 		expect(errorMessage).toMatch('Please fill out this field.');
 
 	});
+
+	test('TC 04.01.22.9.3 Verify that the "Номер телефону" field has Поле «Телефон» has the verification (less than 10 characters)', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldInvalidDataLess10();
+		await modalWindowQuickOrdering.clickSendButton();
+
+		const errorMessage = await page.evaluate(() => {
+			const phoneField = document.querySelector('input#phone');
+			return phoneField ? phoneField.validationMessage : '';
+		});
+
+		expect(errorMessage).toMatch('Please match the requested format.');
+
+	});
+
+	test('TC 04.01.22.10 Verify that the "Номер телефону" field has Поле «Телефон» has the verification (the field does not accept letters)', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldInvalidDataLetterA();
+		await modalWindowQuickOrdering.clickSendButton();
+
+		const errorMessage = await page.evaluate(() => {
+			const phoneField = document.querySelector('input#phone');
+			return phoneField ? phoneField.validationMessage : '';
+		});
+
+		expect(errorMessage).toMatch('Please match the requested format.');
+
+	});
+
+	test('TC 04.01.22.11 Verify that the "Номер телефону" field has Поле «Телефон» has the verification (the field does not accept special characters)', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldInvalidDataSpecialCharacters();
+		await modalWindowQuickOrdering.clickSendButton();
+
+		const errorMessage = await page.evaluate(() => {
+			const phoneField = document.querySelector('input#phone');
+			return phoneField ? phoneField.validationMessage : '';
+		});
+
+		expect(errorMessage).toMatch('Please match the requested format.');
+
+	});
+
+	test('TC 04.01.22.11.1 Verify that the "Номер телефону" field has Поле «Телефон» has the verification (enter invalid phone number by start entering from 1 to 9)', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldInvalidDataNumber1();
+		await modalWindowQuickOrdering.clickSendButton();
+
+		const errorMessage = await page.evaluate(() => {
+			const phoneField = document.querySelector('input#phone');
+			return phoneField ? phoneField.validationMessage : '';
+		});
+
+		expect(errorMessage).toMatch('Please match the requested format.');
+
+	});
+
+	test('TC 04.01.22.12 Verify that the "Швидке замовлення" pop up contains the close(cross) button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+
+		await expect(modalWindowQuickOrdering.locators.getCloseButton()).toBeVisible();
+
+	});
+
+	test('TC 04.01.22.13 Verify that the close(cross) button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+
+		await expect(modalWindowQuickOrdering.locators.getCloseButton()).toBeVisible();
+		await expect(modalWindowQuickOrdering.locators.getCloseButton()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 04.01.22.14 Verify that the "Швидке замовлення" pop up contains the icon', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+
+		await expect(modalWindowQuickOrdering.locators.getIcon()).toBeVisible();
+
+	});
+
+	test('TC 04.01.22.15 Verify that the "Швидке замовлення" pop up contains the header (name)', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+
+		await expect(modalWindowQuickOrdering.locators.getHeaderName()).toBeVisible();
+		await expect(modalWindowQuickOrdering.locators.getHeaderName()).toHaveText(MODAL_WINDOW_QUICK_ORDERING_HEADER_TEXT);
+
+	});
+
+	test('TC 04.01.22.16 Verify that the "Швидке замовлення" pop up contains the the "Залиште заявку і наш менеджер зв’яжеться з вами!" description', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+
+		await expect(modalWindowQuickOrdering.locators.getDescription()).toBeVisible();
+		await expect(modalWindowQuickOrdering.locators.getDescription()).toHaveText(MODAL_WINDOW_QUICK_ORDERING_DESCRIPTION_TEXT);
+
+	});
+
+	test('TC 04.01.22.17 Verify that the "Швидке замовлення" pop up contains the "Вiдправити" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+
+		await expect(modalWindowQuickOrdering.locators.getSendButton()).toBeVisible();
+		await expect(modalWindowQuickOrdering.locators.getSendButton()).toHaveText(MODAL_WINDOW_QUICK_ORDERING_SEND_BUTTON_TEXT);
+
+	});
+
+	test('TC 04.01.22.17.1 Verify that the "Вiдправити" button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+
+		await expect(modalWindowQuickOrdering.locators.getSendButton()).toBeVisible();
+		await expect(modalWindowQuickOrdering.locators.getSendButton()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 04.01.22.18 Verify that the "Замовлення успишне" modal window opens after entering valid data and clicking on the "Вiдправити" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldValidData();
+
+		const modalWindowSuccessfulOrder = await modalWindowQuickOrdering.clickSendButton();
+
+		await expect(modalWindowSuccessfulOrder.locators.getModalWindow()).toBeVisible();
+
+	});
+
+	test('TC 04.01.22.19 Verify that the "Замовлення успишне" modal window contains the icon', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldValidData();
+
+		const modalWindowSuccessfulOrder = await modalWindowQuickOrdering.clickSendButton();
+
+		await expect(modalWindowSuccessfulOrder.locators.getIcon()).toBeVisible();
+
+	});
+
+	test('TC 04.01.22.20 Verify that the "Замовлення успишне" modal window contains the header (name)', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldValidData();
+
+		const modalWindowSuccessfulOrder = await modalWindowQuickOrdering.clickSendButton();
+
+		await expect(modalWindowSuccessfulOrder.locators.getHeader()).toBeVisible();
+		await expect(modalWindowSuccessfulOrder.locators.getHeader()).toHaveText(MODAL_WINDOW_SUCCESSFUL_ORDER_HEADER_TEXT);
+
+	});
+
+	test('TC 04.01.22.21 Verify that the "Замовлення успишне" modal window contains the the "Очікуйте дзвінка нашого менеджера протягом 5 хвилин" description', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldValidData();
+
+		const modalWindowSuccessfulOrder = await modalWindowQuickOrdering.clickSendButton();
+
+		await expect(modalWindowSuccessfulOrder.locators.getDescription()).toBeVisible();
+		await expect(modalWindowSuccessfulOrder.locators.getDescription()).toHaveText(MODAL_WINDOW_SUCCESSFUL_ORDER_DESCRIPTION_TEXT);
+
+	});
+
+	test('TC 04.01.22.22 Verify that the "Замовлення успишне" modal window contains the "Перейти до каталогу" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldValidData();
+
+		const modalWindowSuccessfulOrder = await modalWindowQuickOrdering.clickSendButton();
+
+		await expect(modalWindowSuccessfulOrder.locators.getGoToTheCatalogButton()).toBeVisible();
+		await expect(modalWindowSuccessfulOrder.locators.getGoToTheCatalogButton()).toHaveText(MODAL_WINDOW_SUCCESSFUL_ORDER_GO_TO_CATALOG_BUTTON_TEXT);
+
+	});
+
+	test('TC 04.01.22.23 Verify that the "Перейти до каталогу" button has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldValidData();
+
+		const modalWindowSuccessfulOrder = await modalWindowQuickOrdering.clickSendButton();
+
+		await expect(modalWindowSuccessfulOrder.locators.getGoToTheCatalogButton()).toBeVisible();
+		await expect(modalWindowSuccessfulOrder.locators.getGoToTheCatalogButton()).toHaveCSS('cursor', 'pointer');
+	});
+
+	test('TC 04.01.22.24 Verify that the successful transition to the catalog was made after clicking on the "Перейти до каталогу" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		const modalWindowQuickOrdering = await mobilSuper3000Page.clickBuyToOneClickButton();
+		await modalWindowQuickOrdering.clickPhoneField();
+		await modalWindowQuickOrdering.typePhoneFieldValidData();
+
+		const modalWindowSuccessfulOrder = await modalWindowQuickOrdering.clickSendButton();
+		await modalWindowSuccessfulOrder.clickGoToTheCatalogButton();
+
+		await expect(modalWindowSuccessfulOrder.locators.getModalWindow()).not.toBeVisible();
+		await expect(homePage.locators.getProductListPage()).toBeVisible();
+
+	});
+
+	test('TC 04.01.13.1 Verify that the smaller image of the product has a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getProductImageSmall()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductImageSmall()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 04.01.22.25 Verify that the product page contains the product description "Основні характеристики" header', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getProductMainСharacteristicsHeader()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getProductMainСharacteristicsHeader()).toContainText(PRODUCT_MAIN_CHARACTERISTICS_TEXT);
+
+	});
+
+	test('TC 04.01.22.26 Verify that the "Основні характеристики" block contains the "Вага" informational text', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getWeightText()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getWeightText()).toContainText(WEIGHT_TEXT);
+
+	});
+
+	test('TC 04.01.22.27 Verify that the "Основні характеристики" block contains the value of the "Вага" informational text', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getWeightValueText()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getWeightValueText()).toContainText(WEIGHT_VALUE_TEXT);
+
+	});
+
+	test('TC 04.01.22.28 Verify that the "Основні характеристики" block contains the "Код" informational text', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getCodeText()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getCodeText()).toContainText(CODE_TEXT);
+
+	});
+
+	test('TC 04.01.22.29 Verify that the "Основні характеристики" block contains the value of the "Код" informational text', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getCodeValueText()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getCodeValueText()).toContainText(CODE_VALUE_TEXT);
+
+	});
+
+	test('TC 04.01.22.30 Verify that the "Основні характеристики" block contains the "Виробник" informational text', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getManufacturerText()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getManufacturerText()).toContainText(MANUFACTURER_TEXT);
+
+	});
+
+	test('TC 04.01.22.31 Verify that the "Основні характеристики" block contains the value of the "Виробник" informational text', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getManufacturerNameText()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getManufacturerNameText()).toContainText(MANUFACTURER_NAME_TEXT);
+
+	});
+
+	test('TC 04.01.22.32 Verify that the "Основні характеристики" block contains the "Країна" informational text', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getCountryText()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getCountryText()).toContainText(COUNTRY_TEXT);
+
+	});
+
+	test('TC 04.01.22.33 Verify that the "Основні характеристики" block contains the value of the "Країна" informational text', async ({ page }) => {
+		const homePage = new HomePage(page);
+
+		const mobilSuper3000Page = await homePage.clickMobilSuper3000();
+
+		await expect(mobilSuper3000Page.locators.getCountryNameText()).toBeVisible();
+		await expect(mobilSuper3000Page.locators.getCountryNameText()).toContainText(COUNTRY_NAME_TEXT);
+
+	});
+
 
 })

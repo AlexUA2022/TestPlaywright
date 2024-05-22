@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { BUTTON_REPORT_AVAILABILITY, MINI_TRANSPORTER_PAGE_URL,PRODUCT_NAME_TRANSPORTER,PRODUCT_TRANSPORTER_ARTICLE,PRODUCT_TRANSPORTER_PRICE,PRODUCT_TRANSPORTER_MAIN_FEATURES, PRODUCT_TRANSPORTER_STATUS } from "../../helpers/testDataProductPage.js";
+import { BUTTON_REPORT_AVAILABILITY, MINI_TRANSPORTER_PAGE_URL,PRODUCT_NAME_TRANSPORTER,PRODUCT_TRANSPORTER_ARTICLE,PRODUCT_TRANSPORTER_PRICE,PRODUCT_TRANSPORTER_MAIN_FEATURES, PRODUCT_TRANSPORTER_STATUS, MESSAGE_DIALOG_BOX, APPLICATION_ACCEPTED, EXAMPLE_FIELD_EMAIL_TEXT } from "../../helpers/testDataProductPage.js";
+import {PAGE_1_URL} from "../../helpers/testData.js"
 import MiniTransporterHECHT2636Page from "../../page_objects/miniTransporterHECHT2636.js";
 import { assert } from "console";
 
@@ -195,6 +196,164 @@ test.describe('productListPage.spec.spec', () => {
 		await page.waitForTimeout(2000);
 		await expect(cartMiniTransporterPage.locators.getHECHT2636DialogBox()).toBeVisible();
 		await expect(cartMiniTransporterPage.locators.getHECHT2636DialogBox()).toBeTruthy();
+
+	});
+
+	test('TC 04.01.38.01 Verify that the dialog box "Немає в наявності" contains the message "Введіть адресу своєї пошти, і, як тільки товар з’явиться, Вам прийде лист"', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await expect(cartMiniTransporterPage.locators.getHECHT2636DialogBox()).toHaveText(MESSAGE_DIALOG_BOX);
+	});
+
+	test('TC 04.01.39 Verify that the "Немає в наявності" dialog box contains an e-mail input field', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await expect(cartMiniTransporterPage.locators.getHECHT2636DialogBoxField()).toBeVisible();
+	});
+
+	test('TC 04.01.59.01.1 Verify that the dialog box contains the "Відправити" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await expect(cartMiniTransporterPage.locators.getHECHT2636DialogBoxButton()).toBeVisible();
+		await expect(cartMiniTransporterPage.locators.getHECHT2636DialogBoxButton()).toHaveText('Відправити');
+		await expect(cartMiniTransporterPage.locators.getHECHT2636DialogBoxButton()).toHaveCSS('background-color', 'rgb(21, 112, 239)')
+	});
+
+	test('TC 04.01.59.02.1,04.01.40  Verify that the email was sent successfully, the user clicked on the "Edit" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.fillValidDataDialogBoxField();
+		await cartMiniTransporterPage.clickDialogBoxButton();
+		await expect(page).toBeTruthy()
+	});
+
+	test('TC 04.01.59.02.2 Verify that the pop-up opens "Your application is accepted!", the user has sent his email', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.fillValidDataDialogBoxField();
+		await cartMiniTransporterPage.clickDialogBoxButton();
+		await expect(cartMiniTransporterPage.locators.getApplicationAcceptedPopap()).toBeVisible();
+		await expect(cartMiniTransporterPage.locators.getApplicationAcceptedPopap()).toHaveText(APPLICATION_ACCEPTED);
+	});
+
+	test('TC 04.01.59.02.3 Verify that the Pop up "Ваша заявка принята!" contains the "Перейти до каталогу" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.fillValidDataDialogBoxField();
+		await cartMiniTransporterPage.clickDialogBoxButton();
+		await expect(cartMiniTransporterPage.locators.getGoCatalogButton()).toBeVisible();
+		await expect(cartMiniTransporterPage.locators.getGoCatalogButton()).toHaveCSS('background-color', 'rgb(21, 112, 239)');
+		await expect(cartMiniTransporterPage.locators.getGoCatalogButton()).toHaveText('Перейти до каталогу')
+
+	});
+
+	test('TC 04.01.59.02.3.0 Verify that the user goes to the catalog page by clicking on the "Go to catalog" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.fillValidDataDialogBoxField();
+		await cartMiniTransporterPage.clickDialogBoxButton();
+		await cartMiniTransporterPage.clickGoCatalogButton();
+		await page.waitForTimeout(2000);
+		await expect(page).toHaveURL(PAGE_1_URL)
+	});
+
+	test('TC 04.01.59.03.1 Verify that the "Немає в наявності" dialog box contains the close button "X"', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await expect(cartMiniTransporterPage.locators.getCloseDialogBoxButton()).toBeVisible();
+		await expect(cartMiniTransporterPage.locators.getCloseDialogBoxButton()).toHaveCSS('cursor', 'pointer');
+
+	});
+
+	test('TC 04.01.59.04.1 Verify that the "Немає в наявності" dialog box closes, the user clicked on the close "X" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.clickCloseDialogBoxButton();
+		await expect(cartMiniTransporterPage.locators.getHECHT2636DialogBox()).not.toBeVisible()
+	});
+
+	test('TC 04.01.53 Verify that the  entering an email without a username shows an error', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.fillWithoutUsernameDialogBoxField();
+		await cartMiniTransporterPage.clickDialogBoxButton();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toBeVisible();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toHaveText(EXAMPLE_FIELD_EMAIL_TEXT);
+	});
+
+	test('TC 04.01.54 Verify that the email address without the domain part, an error message is displayed shows an error', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.fillWithoutDomainPart();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toBeVisible();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toHaveText(EXAMPLE_FIELD_EMAIL_TEXT);
+
+	});
+
+	test('TC 04.01.52 Verify that the enter an email address with two dots in a row, an error message is displayed in the domain part shows an error', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.fillWithTwoDots();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toBeVisible();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toHaveText(EXAMPLE_FIELD_EMAIL_TEXT);
+	});
+
+	test('TC 04.01.51 Verify that the enter an email address without a dot, an error message is displayed in the domain part, showing the error', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.fillWithoutDotDomainPart();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toBeVisible();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toHaveText(EXAMPLE_FIELD_EMAIL_TEXT);
+
+	});
+	test('TC 04.01.50 Verify that the enter the email address data with two @@ characters of the domain part, an error message is displayed indicating an error', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const cartMiniTransporterPage = await homePage.clickCardMiniTrasporterHECHT2636();
+		await page.waitForTimeout(3000);
+		await cartMiniTransporterPage.clickHECHT2636ReportAvailabilityButton();
+		await page.waitForTimeout(2000);
+		await cartMiniTransporterPage.fillWithTwoAt();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toBeVisible();
+		await expect(cartMiniTransporterPage.locators.getExampleMessageFieldEmail()).toHaveText(EXAMPLE_FIELD_EMAIL_TEXT);
 
 	})
 	})

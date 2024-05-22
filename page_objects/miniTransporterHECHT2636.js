@@ -23,7 +23,13 @@ class MiniTransporterHECHT2636Page {
 		 getTextShortDescriptionHECHT2636: () => this.page.getByText('За допомогою міні - транспортера Hecht 2636'),
 		 getStatusHECHT2636: () => this.page.getByText('відсутній', { exact: true }),
 		 getHECHT2636ReportAvailabilityButton: () => this.page.getByRole('button', { name: 'Повідомити про наявність' }).first(),
-		 getHECHT2636DialogBox: () => this.page.getByText('Немає в наявностіВведіть адресу своєї пошти, і, як тільки товар з’явиться, Вам п')
+		 getHECHT2636DialogBox: () => this.page.getByText('Немає в наявностіВведіть адресу своєї пошти, і, як тільки товар з’явиться, Вам п'),
+		 getHECHT2636DialogBoxField: () => this.page.getByRole('textbox', { name: 'Приклад example@mail.com' }),
+		 getHECHT2636DialogBoxButton: () => this.page.getByRole('button', { name: 'Відправити' }),
+		 getApplicationAcceptedPopap: () => this.page.getByText('Ваша заявка прийнята!Ми сповістимо Вас, коли товар з\'явиться в продажіПерейти до'),
+		 getGoCatalogButton: () => this.page.getByRole('button', { name: 'Перейти до каталогу' }),
+		 getCloseDialogBoxButton: () => this.page.locator('#modal-root').getByRole('button').first(),
+		 getExampleMessageFieldEmail: () => this.page.getByText('Приклад example@mail.com'),
 
 
 
@@ -39,6 +45,42 @@ class MiniTransporterHECHT2636Page {
 
  async clickHECHT2636ReportAvailabilityButton() {
 	await this.locators.getHECHT2636ReportAvailabilityButton().click();
+ }
+
+ async fillValidDataDialogBoxField() {
+	await this.locators.getHECHT2636DialogBoxField().fill('kati@gmail.com');
+ }
+
+ async clickDialogBoxButton() {
+	await this.locators.getHECHT2636DialogBoxButton().click();
+ }
+
+ async clickGoCatalogButton() {
+	await this.locators.getGoCatalogButton().click();
+ }
+
+ async clickCloseDialogBoxButton() {
+	await this.locators.getCloseDialogBoxButton().click();
+ }
+
+ async fillWithoutUsernameDialogBoxField() {
+	await this.locators.getHECHT2636DialogBoxField().fill('@gmail.com');
+ }
+
+ async fillWithoutDomainPart() {
+	await this.locators.getHECHT2636DialogBoxField().fill('kati@gmail.');
+ }
+
+ async fillWithTwoDots() {
+	await this.locators.getHECHT2636DialogBoxField().fill('kati@gmail..com');
+ }
+
+ async fillWithoutDotDomainPart() {
+	await this.locators.getHECHT2636DialogBoxField().fill('kati@gmailcom');
+ }
+
+ async fillWithTwoAt() {
+	await this.locators.getHECHT2636DialogBoxField().fill('kati@gmail@@com');
  }
 
 }

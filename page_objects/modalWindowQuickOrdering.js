@@ -1,3 +1,5 @@
+import ModalWindowSuccessfulOrder from "./modalWindowSuccessfulOrder";
+
 class ModalWindowQuickOrdering {
 	constructor(page) {
 		 this.page = page;
@@ -8,7 +10,11 @@ class ModalWindowQuickOrdering {
 		getPhoneField: () => this.page.getByLabel('Номер телефону+'),
 		getPhoneFieldHeader: () => this.page.getByText('Номер телефону'),
 		getPhoneFieldPlaceholder: () => this.page.getByText('+38', { exact: true }),
-		getSendButton: () => this.page.getByRole('button', { name: 'Відправити' })
+		getSendButton: () => this.page.getByRole('button', { name: 'Відправити' }),
+		getCloseButton: () => this.page.locator('#modal-root').getByRole('button').first(),
+		getIcon: () => this.page.locator('.modal-body > div > div'),
+		getHeaderName: () => this.page.getByRole('heading', { name: 'Швидке замовлення' }),
+		getDescription: () => this.page.getByText('Залиште заявку і наш менеджер зв’яжеться з вами!')
 
  };
 
@@ -26,6 +32,23 @@ class ModalWindowQuickOrdering {
 
 		async clickSendButton() {
 			await this.locators.getSendButton().click();
+			return new ModalWindowSuccessfulOrder(this.page);
+		}
+
+		async typePhoneFieldInvalidDataLess10() {
+			await this.locators.getPhoneField().type('066216161');
+		}
+
+		async typePhoneFieldInvalidDataLetterA() {
+			await this.locators.getPhoneField().type('a');
+		}
+
+		async typePhoneFieldInvalidDataSpecialCharacters() {
+			await this.locators.getPhoneField().type('#');
+		}
+
+		async typePhoneFieldInvalidDataNumber1() {
+			await this.locators.getPhoneField().type('1');
 		}
 
 }
