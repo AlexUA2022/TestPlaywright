@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
 import {MODAL_WINDOW_NAME_AGRISTAR, MAKE_PREORDER_BUTTON, PRODUCT_INFORMATION_TEXT, PRODUCT_INFORMATION_TEXT_1, PRODUCT_ARTICLE_TEXT_1, PRODUCT_PRICE_TEXT_1, PRODUCT_STATUS_TEXT_1 } from "../../helpers/testDataProductPage.js";
+import ModalWindowSuccessfulOrder from "../../page_objects/modalWindowSuccessfulOrder.js";
 
 
 test.describe('productListPage.spec.spec', () => {
@@ -175,7 +176,7 @@ test.describe('productListPage.spec.spec', () => {
 		const modalWindowPreOrdering = await telescopicLoaderAGRISTARPage.clickMagnifyingGlassIconPreOrdering();
 
 		await expect(modalWindowPreOrdering.locators.getCloseButton()).toBeVisible();
-		await expect(modalWindowPreOrdering.locators.getCloseButton()).toHaveCSS('cursor', 'pointer');	
+		await expect(modalWindowPreOrdering.locators.getCloseButton()).toHaveCSS('cursor', 'pointer');
 
 	});
 
@@ -252,5 +253,106 @@ test.describe('productListPage.spec.spec', () => {
 		await expect(telescopicLoaderAGRISTARPage.locators.getProductStatus()).toHaveText(PRODUCT_STATUS_TEXT_1);
 
 	});
+
+	test('TC 04.01.26.1  Verify that the Filling in the field with an incorrect phone number, a message about the validation of the phone number was received', async ({ page }) => {
+
+		const homePage = new HomePage(page);
+		const telescopicLoadePage = await homePage.clickCardtelescopicLoaderAGRISTAR();
+		await telescopicLoadePage.clickMakePreorderButton();
+		await telescopicLoadePage.fillIncorectFhoneNumberField();
+		await telescopicLoadePage.clickOutOfStockModalWindowButton();
+		await page.waitForTimeout(2000);
+        const isModalVisible = telescopicLoadePage.locators.getOutOfStockModalWindow();
+         expect(isModalVisible).toBeTruthy();
+	});
+
+	test('TC 04.01.30 Verify that the "X" button contains the pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const telescopicLoadePage = await homePage.clickCardtelescopicLoaderAGRISTAR();
+		await telescopicLoadePage.clickMakePreorderButton();
+		await expect(telescopicLoadePage.locators.getModalWindowCloseButton()).toHaveCSS('cursor', 'pointer');
+	});
+
+	test('TC 04.01.30.1 Verify that the modal window closes, the user has clicked on the "X" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const telescopicLoadePage = await homePage.clickCardtelescopicLoaderAGRISTAR();
+		await telescopicLoadePage.clickMakePreorderButton();
+		await telescopicLoadePage.clickModalWindowCloseButton();
+		await expect(telescopicLoadePage.locators.getOutOfStockModalWindow()).not.toBeVisible();
+	});
+
+	test('TC 04.01.31 Verify that the modal window contains the "Вiдправити" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const telescopicLoadePage = await homePage.clickCardtelescopicLoaderAGRISTAR();
+		await telescopicLoadePage.clickMakePreorderButton();
+		await expect(telescopicLoadePage.locators.getOutOfStockModalWindowButton()).toBeVisible();
+		await expect(telescopicLoadePage.locators.getOutOfStockModalWindowButton()).toHaveCSS('cursor', 'pointer');
+	});
+
+	test('TC 04.01.32 Verify that the dialog box "Замовлення успешно" opens, the user clicked on the "Вiдправити" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const telescopicLoadePage = await homePage.clickCardtelescopicLoaderAGRISTAR();
+		await telescopicLoadePage.clickMakePreorderButton();
+		await telescopicLoadePage.fillFhoneNumberField();
+		await telescopicLoadePage.clickOutOfStockModalWindowButton();
+		const modalWindowPage = new ModalWindowSuccessfulOrder(page);
+		await expect(modalWindowPage.locators.getModalWindow()).toBeVisible();
+
+	});
+
+	test('TC 04.01.33 Verify that the "Замовлення успешно" dialog box contains the "Перейти до каталогу" button', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const telescopicLoadePage = await homePage.clickCardtelescopicLoaderAGRISTAR();
+		await telescopicLoadePage.clickMakePreorderButton();
+		await telescopicLoadePage.fillFhoneNumberField();
+		await telescopicLoadePage.clickOutOfStockModalWindowButton();
+		const modalWindowPage = new ModalWindowSuccessfulOrder(page);
+		await expect(modalWindowPage.locators.getGoToTheCatalogButton()).toBeVisible();
+		await expect(modalWindowPage.locators.getGoToTheCatalogButton()).toHaveText('Перейти до каталогу')
+
+	});
+
+	test('TC 04.01.34 Verify that the "Перейти до каталогу" button contains a pointer cursor', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const telescopicLoadePage = await homePage.clickCardtelescopicLoaderAGRISTAR();
+		await telescopicLoadePage.clickMakePreorderButton();
+		await telescopicLoadePage.fillFhoneNumberField();
+		await telescopicLoadePage.clickOutOfStockModalWindowButton();
+		const modalWindowPage = new ModalWindowSuccessfulOrder(page);
+		await expect(modalWindowPage.locators.getGoToTheCatalogButton()).toHaveCSS('cursor', 'pointer');
+		await expect(modalWindowPage.locators.getGoToTheCatalogButton()).toHaveCSS('background-color', 'rgb(21, 112, 239)');
+	});
+
+	test('TC 04.01.27 Verify that the "Номер телефона" field of the modal window "Швидке замовлення" does not accept letters, a validation message has been received', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const telescopicLoadePage = await homePage.clickCardtelescopicLoaderAGRISTAR();
+		await telescopicLoadePage.clickMakePreorderButton();
+		await telescopicLoadePage.fillLetterFhoneNumberField();
+
+		const errorMessage = await page.evaluate(() => {
+			const phoneField = document.querySelector('input#phone');
+			return phoneField ? phoneField.validationMessage : '';
+		});
+
+		expect(errorMessage).toMatch('Please match the requested format.');
+
+
+	});
+	 test('TC 04.01.28 Verify that the "Номер телефона" field of the "Швидке замовлення" modal window does not accept special characters, a confirmation message has been received', async ({ page }) => {
+		const homePage = new HomePage(page);
+		const telescopicLoadePage = await homePage.clickCardtelescopicLoaderAGRISTAR();
+		await telescopicLoadePage.clickMakePreorderButton();
+		await telescopicLoadePage.fillSpecicalCharactersFhoneNumberField();
+
+		const errorMessage = await page.evaluate(() => {
+			const phoneField = document.querySelector('input#phone');
+			return phoneField ? phoneField.validationMessage : '';
+		});
+
+		expect(errorMessage).toMatch('Please match the requested format.');
+
+	 })
+
+
 
 })

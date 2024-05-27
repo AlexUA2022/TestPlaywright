@@ -62,6 +62,22 @@ async clickMakePreorderButton() {
 	return new ModalWindowPreOrdering(this.page);
 }
 
+async fillIncorectFhoneNumberField() {
+	await this.locators.getFhoneNumberField().fill('099 999 89 8');
+}
+
+async clickModalWindowCloseButton() {
+	await this.locators.getModalWindowCloseButton().click();
+}
+
+async fillLetterFhoneNumberField() {
+	await this.locators.getFhoneNumberField().fill('s');
+}
+
+async fillSpecicalCharactersFhoneNumberField() {
+	await this.locators.getFhoneNumberField().fill('&');
+}
+
 }
 
 export default TelescopicLoaderAGRISTARPage;
