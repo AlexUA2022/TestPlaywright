@@ -27,7 +27,7 @@ module.exports = defineConfig({
   use: {
 	headless: process.env.CI ? true : false,
     viewport: { width: 1920, height: 1080 },
-    baseURL: 'https://zapchaztiulka-catalog-frontend.vercel.app/',
+    baseURL: 'https://zapchaztiulka-catalog-frontend-eta.vercel.app/',
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
