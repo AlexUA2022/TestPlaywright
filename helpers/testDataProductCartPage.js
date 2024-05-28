@@ -1,6 +1,6 @@
 //URL
 
-// export const MOBIL_SUPER_3000_URL = 'https://zapchaztiulka-catalog-frontend-eta.vercel.app/product/656492c19201e946f6d26143';
+export const CHECKOUT_PAGE_URL = 'https://zapchaztiulka-catalog-frontend-eta.vercel.app/checkout';
 
 
 //test data
@@ -14,6 +14,11 @@ export const CART_WITH_PRODUCTS_HEADER_TEXT = 'Кошик';
 export const CANSEL_BUTTON_TEXT = 'Відмінити';
 export const CLEAR_THE_CART_MODAL_WINDOW_HEADER_TEXT = 'Очистити кошик';
 export const MODAL_WINDOW_TEXT = 'Ви впевнені, що хочете видалити товари? Відмінити цю дію неможливо.';
+export const ALL_INFORMATION_TEXT = 'Всього: 1233 ₴';
+export const CHECKOUT_BUTTON_TEXT = 'Офомити замовлення';
+export const CHECKOUT_PAGE_HEADER_TEXT = 'Оформлення замовлення';
+export const PRODUCT_NAME_TEXT = 'Моторна олива Mobil Super 3000 X1 Formula FE 5W-30';
+export const PRODUCT_ARTICLE_TEXT = 'Артикул: testProduct33';
 
 
 

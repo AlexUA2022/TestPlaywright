@@ -1,4 +1,4 @@
-import HomePage from "./homePage";
+import ModalWindowEmptyCart from "./modalWindowEmptyCart";
 
 class ModalWindowClearTheCart {
 	constructor(page) {
@@ -11,16 +11,14 @@ class ModalWindowClearTheCart {
 		getCanselButton: () => this.page.getByRole('button', { name: 'Відмінити' }),
 		getClearTheCartModalWindowHeader: () => this.page.getByRole('heading', { name: 'Очистити кошик' }),
 		getIcon: () => this.page.locator('.z-12 > div').first(),
-		getModalWindowText: () => this.page.getByText('Ви впевнені, що хочете видалити товари? Відмінити цю дію неможливо')
-		// getGoToCatalogButton: () => this.page.getByRole('button', { name: 'Перейти до каталогу' }),
-		// getCloseXButton: () => this.page.locator('#modal-cart').getByRole('button').nth(1),
-		// getModalWindowEmptyCartText: () => this.page.getByText('Почніть додавати товари прямо зараз!')
+		getModalWindowText: () => this.page.getByText('Ви впевнені, що хочете видалити товари? Відмінити цю дію неможливо'),
+		getModalWindowRemoveProduct: () => this.page.getByText('Видалити товарВи впевнені, що хочете видалити товар? Відмініти цю дію неможливо.')
  };
 
-		// async clickCloseXButton() {
-		// 	await this.locators.getCloseXButton().click();
-		// 	return new HomePage(this.page);
-		// }
+		async clickRemoveTheProductsButton() {
+			await this.locators.getRemoveTheProductsButton().click();
+			return new ModalWindowEmptyCart(this.page);
+		}
 
 }
 
