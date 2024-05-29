@@ -1,7 +1,8 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import { } from "../../helpers/testDataOrderPlacementIndividualPage.js";
+import {MESSAGE_NOT_VALID_EMAIL, MESSAGE_PHONE_NAMBER_FIELD, DELIVERY_METHOD_DATA_TEXT, PLACEHOLDER_SELECT_DELIVERY_CITY_FIELD_TEXT } from "../../helpers/testDataOrderPlacementIndividualPage.js";
 import OrderPlacementIndividualPage from "../../page_objects/orderPlacementIndividualPage.js";
+import { escape } from "querystring";
 
 test.describe('orderPlacementIndividual.spec', () => {
 	test.beforeEach(async ({ page }) => {
@@ -49,8 +50,155 @@ test.describe('orderPlacementIndividual.spec', () => {
         await expect(orderIndovidual.locators.getFrame()).toBeVisible();
         await expect(orderIndovidual.locators.getFrame()).toHaveCSS('background-color', 'rgb(249, 249, 249)')
 
-    })
+    });
 
+    test('TC 05.01.42 Verify that the "контактнi даннi" block contains the "Iмя" field', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await expect(orderIndovidual.locators.getNameField()).toBeVisible();
+
+    });
+
+    test('TC 05.01.43 Verify that the "Iм я" field accepts letters', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.fillNameField();
+        await expect(orderIndovidual.locators.getNameField()).toBeVisible();
+    });
+
+    test('TC 05.01.46 Verify that the "I" field is required, a message has been received', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.clickPlaceOrderButton();
+        await expect(orderIndovidual.locators.getMessageRequiredFieldName()).toBeVisible();
+        await expect(orderIndovidual.locators.getMessageRequiredFieldName()).toHaveCSS('color', 'rgb(217, 45, 32)');
+
+    });
+
+    test('TC 05.01.47 Verify that the "контактнi даннi" block contains The "Прiзвище"field', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await expect(orderIndovidual.locators. gatLastNameField()).toBeVisible();
+    });
+
+    test('TC 05.01.48 Verify that the "Прiзвище" field accepts letters', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.fillLastNameField();
+        await expect(orderIndovidual.locators.gatLastNameField()).toBeVisible();
+    });
+
+    test('TC 05.01.51 Verify that the"Прiзвище" field is mandatory', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.clickPlaceOrderButton();
+        await expect(orderIndovidual.locators.getMessageRequiredLastName()).toBeVisible();
+        await expect(orderIndovidual.locators.getMessageRequiredLastName()).toHaveCSS('color', 'rgb(217, 45, 32)');
+    });
+
+    test('TC 05.01.52 Verify that the "контактнi даннi" block contains the "По батьковi" field', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await expect(orderIndovidual.locators.getMiddleNameField()).toBeVisible();
+    });
+
+    test('TC 05.01.53 Verify that the field "По батьковi" accepts letters', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.fillMiddleNameField();
+        await expect(orderIndovidual.locators.getMiddleNameField()).toBeVisible();
+    });
+
+    test('TC 05.01.57 Verify that the "контактнi даннi" block contains the "Номер телефону" field', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await expect(orderIndovidual.locators.getNumberPhoneField()).toBeVisible();
+    });
+
+    test('TC 05.01.58  Verify that the "Номер телефона" field is mandatory', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.clickPlaceOrderButton();
+        await expect(orderIndovidual.locators.getMessageRequiredPhoneNumber()).toBeVisible();
+        await expect(orderIndovidual.locators.getMessageRequiredPhoneNumber()).toHaveCSS('color', 'rgb(217, 45, 32)');
+    });
+
+    test('TC 05.01.62 Verify that the"Блок  "контактнi даннi" содержит Поле "Ваша электронна адреса"" block contains the "Ваша электронная адреса" field', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await expect(orderIndovidual.locators.getEmailField()).toBeVisible();
+    });
+
+    test('TC 05.01.41 Verify that the "Ваша электронна адреса" field is mandatory', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.clickPlaceOrderButton();
+        await expect(orderIndovidual.locators.getMessageRequiredEmailField()).toBeVisible();
+        await expect(orderIndovidual.locators.getMessageRequiredEmailField()).toHaveCSS('color', 'rgb(217, 45, 32)');
+    });
+
+    test('TC 05.01.64 Verify that the "Ваша электронная адреса" field accepts a valid email', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.fillvalidEmailField();
+        await expect(orderIndovidual.locators.getEmailField()).toBeVisible();
+    });
+
+    test('TC 05.01.65 Verify that the "Ваша электронная адреса" field does not accept an invalid email, a warning message has been received', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.fillNotvalidEmailField();
+        await expect(orderIndovidual.locators.getMessageNotValidEmailField()).toBeVisible();
+        await expect(orderIndovidual.locators.getMessageNotValidEmailField()).toHaveText(MESSAGE_NOT_VALID_EMAIL);
+    });
+
+    test('TC 05.01.68 Verify that the user cannot enter Cyrillic letters in the "Ваша электронная адреса" field in the domain part', async ({ page }) => {
+        const orderIndovidual = new OrderPlacementIndividualPage(page);
+        await orderIndovidual.fillCyrillicLettersEmailField();
+        await expect(orderIndovidual.locators.getMessageNotValidEmailField()).toHaveText(MESSAGE_NOT_VALID_EMAIL);
+    });
+
+ test(' TC 05.01.67 Verify that the user cannot enter Cyrillic letters in the "Ваша электронная адреса" field in the domain part', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.fillCyrillicLettersDomainEmailField();
+    await expect(orderIndovidual.locators.getMessageNotValidEmailField()).toHaveText(MESSAGE_NOT_VALID_EMAIL);
+ });
+
+ test('TC 05.01.69 Verify that the user cannot enter data in the "Ваша электронная адреса" field using two @@', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.fillTwoAtEmailField();
+    await expect(orderIndovidual.locators.getMessageNotValidEmailField()).toHaveText(MESSAGE_NOT_VALID_EMAIL);
+ });
+
+ test('TC 05.01.70 Verify that the user cannot enter data in the "Ваша электронная адреса" field without @', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.fillWithoutAtEmailField();
+    await expect(orderIndovidual.locators.getMessageNotValidEmailField()).toHaveText(MESSAGE_NOT_VALID_EMAIL);
+ });
+
+ test('TC 05.01.59 Verify that the "Номер телефону" field takes a valid value of the number of digits', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.fillNumberPhoneField();
+    await expect(orderIndovidual.locators.getNumberPhoneField()).toBeVisible();
+ });
+
+ test('TC 05.01.60 Verify that the number of digits in the "Номер телефона" field cannot be less than the allowed value', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.fillWithoutOneDigitNumberPhoneField();
+
+    const errorMessage = await page.evaluate(() => {
+        const phoneField = document.querySelector('input#phone');
+        return phoneField ? phoneField.validationMessage : '';
+    });
+
+    expect(errorMessage).toMatch('Please match the requested format.');
+ });
+
+ test('TC 05.01.61 Verify that the phone number starts with "0", message has been received',async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.fillStartWithZeroPhoneField();
+    await expect(orderIndovidual.locators.getMessageNumberPhoneField()).toBeVisible();
+    await expect(orderIndovidual.locators.getMessageNumberPhoneField()).toHaveText(MESSAGE_PHONE_NAMBER_FIELD);
+    await expect(orderIndovidual.locators.getMessageNumberPhoneField()).toHaveCSS('color', 'rgb(247, 144, 9)');
+
+ });
+test('TC 05.01.73 Verify that the "Оформлення замовлення " page contains the"Спосіб та дані доставки" block', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await expect(orderIndovidual.locators.getDeliveryMethodAndData()).toBeVisible();
+    await expect(orderIndovidual.locators.getDeliveryMethodAndData()).toHaveText(DELIVERY_METHOD_DATA_TEXT);
+});
+
+test('TC 05.01.74 Verify that the "Спосіб та дані доставки" block contains the "Оберіть місто доставки"field', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await expect(orderIndovidual.locators.getSelectDeliveryCityField()).toBeVisible();
+    
+});
 
 
 
