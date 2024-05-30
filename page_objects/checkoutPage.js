@@ -45,7 +45,28 @@ class CheckoutPage {
 	getDeliveryCityField: () => this.page.locator('div').filter({ hasText: /^Оберіть місто доставки \*$/ }).getByPlaceholder('Введіть назву міста'),
 	getDeliveryCityFieldLabel: () => this.page.getByText('Оберіть місто доставки *'),
 	getPickupRadiobutton: () => this.page.getByLabel('Самовивіз'),
-	getPickupRadiobuttonLabelText: () => this.page.locator('label[for="self"]')
+	getPickupRadiobuttonLabelText: () => this.page.locator('label[for="self"]'),
+	getPickupBlock: () => this.page.getByText('СамовивізОберіть адресу магазину*Оберіть значення...Пн - ПтCб9:00-18:009:00-13:'),
+	getAddressDropdown: () => this.page.locator('div').filter({ hasText: /^Оберіть значення\.\.\.$/ }).nth(1),
+	getAddressDropdownLabel: () => this.page.getByText('Оберіть адресу магазину*'),
+	getAddressDropdownPlaceholder: () => this.page.getByText('Оберіть значення'),
+	getAddressDropdownButton: () => this.page.locator('div.relative svg').nth(3),
+	getAddress1Section: () => this.page.locator('li').filter({ hasText: 'Адресa 1' }),
+	getAddress2Section: () => this.page.getByText('Адресa 2'),
+	getDropdownAddress1: () => this.page.locator('div').filter({ hasText: /^Адресa 1$/ }).nth(1),
+	getDropdownAddress2: () => this.page.locator('div').filter({ hasText: /^Адресa 2$/ }).nth(1),
+	getWorkinghoursBlock: () => this.page.getByText('Пн - ПтCб9:00-18:009:00-13:'),
+	getWorkinghoursText1: () => this.page.getByText('Пн - Пт', { exact: true }),
+	getWorkinghoursText2: () => this.page.getByText('Cб'),
+	getWorkinghoursText3: () => this.page.getByText('9:00-18:00', { exact: true }),
+	getWorkinghoursText4: () => this.page.getByText('9:00-13:00', { exact: true }),
+	getNewBranchPostOfficeRadiobutton: () => this.page.getByLabel('Нова пошта відділення'),
+	getNewBranchPostOfficeRadiobuttonLabelText: () => this.page.getByText('Нова пошта відділення'),
+	getNewBranchPostOfficeBlock: () => this.page.getByText('Нова пошта відділенняОберіть поштове відділення *'),
+	getNewBranchPostOfficeField: () => this.page.locator('div').filter({ hasText: /^Оберіть поштове відділення \*$/ }).locator('div').nth(2),
+	getNewBranchPostOfficeFieldLabel: () => this.page.getByText('Оберіть поштове відділення *'),
+	getNewBranchPostOfficeErrorMessage: () => this.page.locator('div.text-textError'),
+	getNewBranchPostOfficeFieldPlaceholder: () => this.page.getByPlaceholder('Оберіть значення або введіть назву')
  };
 
 		async clickBreadcrumbs() {
@@ -67,6 +88,26 @@ class CheckoutPage {
 
 		async checkPickupRadiobutton() {
 			await this.locators.getPickupRadiobutton().check();
+		}
+
+		async clickAddressDropdownButton() {
+			await this.locators.getAddressDropdownButton().click();
+		}
+
+		async clickAddress1Section() {
+			await this.locators.getAddress1Section().click();
+		}
+
+		async clickAddress2Section() {
+			await this.locators.getAddress2Section().click();
+		}
+
+		async checkNewBranchPostOfficeRadiobutton() {
+			await this.locators.getNewBranchPostOfficeRadiobutton().check();
+		}
+
+		async clickNewBranchPostOfficeField() {
+			await this.locators.getNewBranchPostOfficeField().click();
 		}
 
 

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import HomePage from "../../page_objects/homePage.js";
-import {MESSAGE_NOT_VALID_EMAIL, MESSAGE_PHONE_NAMBER_FIELD, DELIVERY_METHOD_DATA_TEXT, PLACEHOLDER_SELECT_DELIVERY_CITY_FIELD_TEXT } from "../../helpers/testDataOrderPlacementIndividualPage.js";
+import {MESSAGE_NOT_VALID_EMAIL, MESSAGE_PHONE_NAMBER_FIELD, DELIVERY_METHOD_DATA_TEXT, MESSAGE_DELIVERY_CITY_FIELD_TEXT, PICKUP_RADIO_BUTTON_TEXT } from "../../helpers/testDataOrderPlacementIndividualPage.js";
 import OrderPlacementIndividualPage from "../../page_objects/orderPlacementIndividualPage.js";
 import { escape } from "querystring";
 
@@ -197,8 +197,87 @@ test('TC 05.01.73 Verify that the "Оформлення замовлення " p
 test('TC 05.01.74 Verify that the "Спосіб та дані доставки" block contains the "Оберіть місто доставки"field', async ({ page }) => {
     const orderIndovidual = new OrderPlacementIndividualPage(page);
     await expect(orderIndovidual.locators.getSelectDeliveryCityField()).toBeVisible();
-    
+    await expect(orderIndovidual.locators.getSelectDeliveryCityField()).toHaveAttribute('placeholder', 'Введіть назву міста..')
+
 });
+
+test('TC 05.01.74.01 Verify that the "Оберіть місто доставки" field is mandatory', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.clickPlaceOrderButton();
+    await expect(orderIndovidual.locators.getMessgaeDeliveryCityField()).toBeVisible();
+    await expect(orderIndovidual.locators.getMessgaeDeliveryCityField()).toHaveText(MESSAGE_DELIVERY_CITY_FIELD_TEXT);
+});
+
+test('TC 05.01.75 Verify that the "Спосіб та дані доставки" block contains the "Самовивiз"radio button', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await expect(orderIndovidual.locators.getPickupRadioButton()).toBeVisible();
+    await expect(orderIndovidual.locators.getPickupRadioButton()).toHaveText(PICKUP_RADIO_BUTTON_TEXT);
+
+});
+
+test('TC 05.01.76 Verify that the  user can select "Самовивiз" by clicking on the radio button', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.checkPickuppRadioButton();
+    await expect(orderIndovidual.locators.getPickuppRadioButton()).toBeChecked();
+
+});
+test('TC 05.01.76.1 Verify that the "Самовывоз" block is open', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.checkPickuppRadioButton();
+    await expect(orderIndovidual.locators.getBlockPickupOpen()).toBeVisible();
+});
+
+test('TC 05.01.77 Verify that the "Самовывоз" block Contains dropdown " Оберіть значення..."', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.checkPickuppRadioButton();
+    await expect(orderIndovidual.locators.getSelectValue()).toBeVisible();
+    await expect(orderIndovidual.locators.getSelectValue()).toHaveText('Оберіть значення...')
+});
+
+test('TC 05.01.77.1  Verify that the dropdown "" Оберіть значення..." has a pointer cursor', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.checkPickuppRadioButton();
+    await expect(orderIndovidual.locators.getSelectValue()).toHaveCSS('cursor', 'pointer');
+
+});
+test('ЕС 05.01.77.2 Verify that the dropdown "Оберіть значення..." it is opening', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.checkPickuppRadioButton();
+    await orderIndovidual.clickSelectValue();
+    await expect(orderIndovidual.locators.getSelectValue()).toBeAttached();
+});
+
+test('TC 05.01.78 Verify that the dropdown " Оберіть значения..."contains  Адрес 1', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.checkPickuppRadioButton();
+    await orderIndovidual.clickSelectValue();
+    await expect(orderIndovidual.locators.getFirstAddressValue()).toBeVisible();
+    await expect(orderIndovidual.locators.getFirstAddressValue()).toHaveText('Адресa 1');
+});
+test('TC 05.01.79 Verify that the dropdown " Оберіть значения..."contains  Адрес 2', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.checkPickuppRadioButton();
+    await orderIndovidual.clickSelectValue();
+    await expect(orderIndovidual.locators.getSecondAddressValue()).toBeVisible();
+    await expect(orderIndovidual.locators.getSecondAddressValue()).toHaveText('Адресa 2');
+});
+
+test('TC 05.01.80 Verify that the dropdown "Оберіть значения..." contains contains the opening hours', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await orderIndovidual.checkPickuppRadioButton();
+    await orderIndovidual.clickSelectValue();
+    await orderIndovidual.clickSelectValue();
+    await expect(orderIndovidual.locators.getOpeningHours()).toBeVisible();
+    await expect(orderIndovidual.locators.getOpeningHours()).toHaveText('Пн - ПтCб9:00-18:009:00-13:00');
+});
+
+test('TC 05.01.81  "block" Блок "Спосіб та дані доставки " contains the radio button "Нова пошта відділення "" block contains the "new mail branch" radio button', async ({ page }) => {
+    const orderIndovidual = new OrderPlacementIndividualPage(page);
+    await expect(orderIndovidual.locators.getNewPostOfficeRadioButton()).toBeVisible();
+    await expect(orderIndovidual.locators.getNewPostOfficeRadioButton()).toHaveText('Нова пошта відділення');
+})
+
+
 
 
 
