@@ -66,7 +66,33 @@ class CheckoutPage {
 	getNewBranchPostOfficeField: () => this.page.locator('div').filter({ hasText: /^Оберіть поштове відділення \*$/ }).locator('div').nth(2),
 	getNewBranchPostOfficeFieldLabel: () => this.page.getByText('Оберіть поштове відділення *'),
 	getNewBranchPostOfficeErrorMessage: () => this.page.locator('div.text-textError'),
-	getNewBranchPostOfficeFieldPlaceholder: () => this.page.getByPlaceholder('Оберіть значення або введіть назву')
+	getNewBranchPostOfficeFieldPlaceholder: () => this.page.getByPlaceholder('Оберіть значення або введіть назву'),
+	getСourierRadiobutton: () => this.page.getByLabel('Кур\'єр Запчастюлька'),
+	getСourierRadiobuttonLabelText: () => this.page.getByText('Кур\'єр Запчастюлька'),
+	getСourierBlock: () => this.page.getByText('Кур\'єр ЗапчастюлькаВведіть назву вулиці* Номер будинку* Номер квартири'),
+	getСourierSrteetField: () => this.page.getByPlaceholder('Введіть назву та оберіть значення'),
+	getСourierSrteetFieldLabel: () => this.page.getByText('Введіть назву вулиці*'),
+	getСourierErrorMessage: () => this.page.getByText('Ви не обрали місто доставки'),
+	getСourierHouseField: () => this.page.locator('div').filter({ hasText: /^Введіть назву вулиці\* Номер будинку\* Номер квартири$/ }).getByRole('textbox').nth(1),
+	getСourierHouseFieldLabel: () => this.page.getByText('Номер будинку*'),
+	getСourierFlatField: () => this.page.locator('div').filter({ hasText: /^Введіть назву вулиці\* Номер будинку\* Номер квартири$/ }).getByRole('textbox').nth(2),
+	getСourierFlatFieldLabel: () => this.page.getByText('Номер квартири'),
+	getСourierNPRadiobutton: () => this.page.getByLabel('Кур\'єр Нова Пошта'),
+	getСourierNPRadiobuttonLabelText: () => this.page.getByText('Кур\'єр Нова Пошта'),
+	getСourierNPBlock: () => this.page.getByText('Кур\'єр Нова ПоштаВведіть назву вулиці* Номер будинку* Номер квартири'),
+	getСourierNPSrteetField: () => this.page.getByPlaceholder('Введіть назву та оберіть значення'),
+	getСourierNPSrteetFieldLabel: () => this.page.getByText('Введіть назву вулиці*'),
+	getСourierNPErrorMessage: () => this.page.getByText('Ви не обрали місто доставки'),
+	getСourierNPHouseField: () => this.page.locator('div').filter({ hasText: /^Введіть назву вулиці\* Номер будинку\* Номер квартири$/ }).getByRole('textbox').nth(1),
+	getСourierNPHouseFieldLabel: () => this.page.getByText('Номер будинку*'),
+	getСourierNPFlatField: () => this.page.locator('div').filter({ hasText: /^Введіть назву вулиці\* Номер будинку\* Номер квартири$/ }).getByRole('textbox').nth(2),
+	getСourierNPFlatFieldLabel: () => this.page.getByText('Номер квартири'),
+	getComment: () => this.page.getByLabel('Коментар до замовлення'),
+	getCommentHeader: () => this.page.getByText('Коментар до замовлення'),
+	getPlaceAnOrderButton: () => this.page.getByRole('button', { name: 'Оформити замовлення' }),
+	getCommentErrorMessage: () => this.page.getByText('Коментар має містити не менше 10 символів'),
+	getInformationBlock: () => this.page.getByText('Ваше замовленняМоторна олива').nth(1),
+	getInformationBlockHrader: () => this.page.getByRole('heading', { name: 'Ваше замовлення' })
  };
 
 		async clickBreadcrumbs() {
@@ -110,8 +136,37 @@ class CheckoutPage {
 			await this.locators.getNewBranchPostOfficeField().click();
 		}
 
+		async clickСourierRadiobutton() {
+			await this.locators.getСourierRadiobutton().click();
+		}
 
+		async clickСourierSrteetField() {
+			await this.locators.getСourierSrteetField().click();
+		}
 
+		async clickСourierNPRadiobutton() {
+			await this.locators.getСourierNPRadiobutton().click();
+		}
+
+		async clickСourierNPSrteetField() {
+			await this.locators.getСourierNPSrteetField().click();
+		}
+
+		async clickComment() {
+			await this.locators.getComment().click();
+		}
+
+		async fillComment() {
+			await this.locators.getComment().fill('Відмінний магазин');
+		}
+
+		async fillCommentLess10() {
+			await this.locators.getComment().fill('1');
+		}
+
+		async clickPlaceAnOrderButton() {
+			await this.locators.getPlaceAnOrderButton().click();
+		}
 
 }
 
